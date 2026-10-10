@@ -32,7 +32,7 @@ A Kotlin / Jetpack Compose app that displays Pokémon from [PokéAPI](https://po
 
 ### 4. `InfiniteLazyColumn` component
 - [x] Generic over item type (no Pokémon knowledge)
-- [ ] Triggers load-more when the user nears the end of the list (prefetch threshold, so the user never hits the end)
+- [x] Triggers load-more when the user nears the end of the list (prefetch threshold, so the user never hits the end)
 - [ ] Loading, success, and error states
 - [ ] Customizable item, loading, and error content
 

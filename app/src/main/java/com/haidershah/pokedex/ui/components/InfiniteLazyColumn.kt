@@ -28,7 +28,7 @@ fun <T> InfiniteLazyColumn(
     itemContent: @Composable (T) -> Unit,
     loadState: LoadState,
     loadData: () -> Unit,
-    loadMoreThreshold: Int
+    loadMoreThreshold: Int = 3
 ) {
     val lazyListState = rememberLazyListState()
 
