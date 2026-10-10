@@ -12,6 +12,8 @@ import kotlinx.coroutines.launch
 class PokemonViewModel : ViewModel() {
     private val repository = PokemonRepository
 
+    private var nextUrl: String? = null
+
     private val _uiState = MutableStateFlow(UiState())
     val uiState = _uiState.asStateFlow()
 
@@ -21,21 +23,32 @@ class PokemonViewModel : ViewModel() {
 
     fun getPokemons() {
         viewModelScope.launch {
-            val response = repository.getPokemons()
+            Log.d(TAG, "Fetch Pokemons with url <$nextUrl>...")
+            val response = repository.getPokemons(nextUrl)
+            Log.d(TAG, "Response: $response")
+
+            // store nextUrl
+            nextUrl = response.next
 
             // change the first character of name to uppercase
-            val pokemons = response.results.map { pokemon ->
+            val newPokemons = response.results.map { pokemon ->
                 pokemon.copy(name = pokemon.name.replaceFirstChar { firstCharacter ->
                     firstCharacter.uppercase()
                 })
             }
 
             _uiState.update { currentUiState ->
+                val pokemons = currentUiState.pokemons + newPokemons
+
                 currentUiState.copy(
-                    count = response.results.size,
+                    count = pokemons.size,
                     pokemons = pokemons
                 )
             }
         }
+    }
+
+    companion object {
+        private const val TAG = "PokemonViewModel"
     }
 }

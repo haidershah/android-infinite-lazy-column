@@ -19,6 +19,8 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.remember
@@ -42,18 +44,29 @@ fun PokemonScreen(modifier: Modifier = Modifier, viewModel: PokemonViewModel = v
     val numLoadedPokemons = uiState.count
     val pokemons = uiState.pokemons
 
-    PokemonContent(modifier, numLoadedPokemons, pokemons)
+    PokemonContent(modifier, numLoadedPokemons, pokemons, loadData = { viewModel.getPokemons() })
 }
 
 @Composable
 fun PokemonContent(
     modifier: Modifier = Modifier,
     numLoadedPokemons: Int,
-    pokemons: List<Pokemon>
+    pokemons: List<Pokemon>,
+    loadData: () -> Unit
 ) {
     val lazyListState = rememberLazyListState()
 
-    
+    val isAtBottom by remember {
+        derivedStateOf {
+            !lazyListState.canScrollForward
+        }
+    }
+
+    LaunchedEffect(isAtBottom) {
+        if (isAtBottom) {
+            loadData()
+        }
+    }
 
     LazyColumn(
         modifier = modifier
