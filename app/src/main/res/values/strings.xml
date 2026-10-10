@@ -2,4 +2,5 @@
     <string name="app_name">InfiniteScroll</string>
     
     <string name="main_screen_title">Pokédex</string>
+    <string name="loaded_pokemon">Loaded Pokémon</string>
 </resources>
