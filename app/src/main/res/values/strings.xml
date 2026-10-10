@@ -3,4 +3,7 @@
     
     <string name="main_screen_title">Pokédex</string>
     <string name="loaded_pokemon">Loaded Pokémon</string>
+
+    <string name="error_data_load">Couldn\'t load data</string>
+    <string name="retry">Retry</string>
 </resources>

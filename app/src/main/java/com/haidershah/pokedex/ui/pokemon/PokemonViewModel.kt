@@ -36,6 +36,13 @@ class PokemonViewModel : ViewModel() {
                 currentUiState.copy(loadState = LoadState.Loading)
             }
 
+            // todo remove
+            if(it.contains("offset=10")) {
+                _uiState.update { currentUiState ->
+                    currentUiState.copy(loadState = LoadState.Error)
+                }
+            }
+
             viewModelScope.launch {
 
                 // todo remove

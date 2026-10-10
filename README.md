@@ -63,6 +63,7 @@ A Kotlin / Jetpack Compose app that displays Pokémon from [PokéAPI](https://po
 
 ### 9. Cleanup
 - [x] Remove unused imports (`colorResource`, `Log`)
+- [ ] Remove `// todo remove` test code in `PokemonViewModel` (artificial `delay`, forced `Error` on `offset=10`)
 - [ ] Rename `UiState` → `PokemonUiState`
 - [ ] Inject repository via ViewModel constructor (needed for tests)
 - [ ] Declare `lifecycle-runtime-compose` explicitly (currently transitive)
