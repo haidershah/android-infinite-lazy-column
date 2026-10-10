@@ -81,6 +81,10 @@ _TODO_
 
 _TODO_
 
+## Accessibility
+
+- **Decorative row icon:** the bolt icon on each Pokémon row uses `contentDescription = null`. It's identical on every row and carries no information — the Pokémon name is the row's meaning. With a description, TalkBack would announce it on every row ("bolt, Bulbasaur", "bolt, Ivysaur", …), adding noise without value; with `null`, TalkBack skips it and reads just the name.
+
 ## Tradeoffs
 
 ### Initial load in `init` vs. lazy `Flow.onStart`
