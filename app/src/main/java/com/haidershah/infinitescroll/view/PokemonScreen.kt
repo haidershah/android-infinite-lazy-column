@@ -4,6 +4,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -27,28 +28,28 @@ fun PokemonContent(modifier: Modifier = Modifier) {
     Column(
         modifier = modifier
             .padding(16.dp)
-            .fillMaxSize(1f)
+            .fillMaxSize()
     ) {
         Text(
             text = stringResource(R.string.main_screen_title),
-            fontSize = 40.sp,
-            fontWeight = FontWeight.Bold
+            style = MaterialTheme.typography.headlineLarge,
+            fontWeight = FontWeight.Bold,
         )
 
         Column(
             modifier = Modifier
-                .fillMaxWidth(1f)
+                .fillMaxWidth()
                 .padding(top = 32.dp),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             Text(
                 text = stringResource(R.string.loaded_pokemon),
-                fontSize = 16.sp,
+                style = MaterialTheme.typography.bodyMedium,
                 color = colorResource(R.color.loaded_pokemon_text_color)
             )
             Text(
                 text = "20",
-                fontSize = 37.sp,
+                style = MaterialTheme.typography.displayMedium,
                 fontWeight = FontWeight.Bold
             )
         }
