@@ -4,6 +4,7 @@ import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.haidershah.pokedex.data.repository.PokemonRepository
+import com.haidershah.pokedex.ui.components.LoadState
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -16,7 +17,7 @@ class PokemonViewModel : ViewModel() {
 
     private var nextUrl: String? = ""
 
-    private val _uiState = MutableStateFlow(UiState())
+    private val _uiState = MutableStateFlow(UiState(loadState = LoadState.Idle))
     val uiState = _uiState.asStateFlow()
 
     init {
@@ -25,6 +26,10 @@ class PokemonViewModel : ViewModel() {
 
     fun getPokemons() {
         nextUrl?.let { // nextUrl is not null, fetch data
+            _uiState.update { currentUiState ->
+                currentUiState.copy(loadState = LoadState.Loading)
+            }
+
             viewModelScope.launch {
 
                 // todo remove
@@ -48,6 +53,7 @@ class PokemonViewModel : ViewModel() {
                     val pokemons = currentUiState.pokemons + newPokemons
 
                     currentUiState.copy(
+                        loadState = LoadState.Idle,
                         count = pokemons.size,
                         pokemons = pokemons
                     )

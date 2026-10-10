@@ -110,7 +110,7 @@ fun PokemonRow(pokemon: Pokemon) {
             Icon(
                 modifier = Modifier.size(30.dp),
                 painter = painterResource(R.drawable.baseline_bolt_24),
-                contentDescription = null,
+                contentDescription = null,v
             )
             Text(
                 modifier = Modifier.padding(start = 8.dp),
