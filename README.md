@@ -103,3 +103,4 @@ The alternative is to start loading lazily when the UI first collects the state:
 ## Future Improvements
 
 - Dependency injection framework (e.g. Hilt)
+- Replace Gson with kotlinx.serialization: Gson ignores Kotlin nullability, so a missing field can land as `null` in a non-null property and crash later; kotlinx.serialization fails at parse time instead
