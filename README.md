@@ -37,6 +37,7 @@ A Kotlin / Jetpack Compose app that displays Pokémon from [PokéAPI](https://po
 - [ ] Display Pokémon names
 - [ ] Display total number of Pokémon currently loaded
 - [ ] Seamless loading while scrolling
+- [ ] `@Preview` for the stateless `PokemonContent` (loading, loaded, error, end-of-list states)
 
 ### 6. Animations
 - [ ] Animate newly loaded rows as they appear

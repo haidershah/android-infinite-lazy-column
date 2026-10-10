@@ -18,6 +18,7 @@ import com.haidershah.infinitescroll.R
 
 @Composable
 fun PokemonScreen(modifier: Modifier = Modifier, viewModel: PokemonViewModel = viewModel()) {
+    viewModel.getPokemons()
     PokemonContent(modifier)
 }
 
