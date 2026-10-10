@@ -63,7 +63,11 @@ fun PokemonContent(
 
 @Composable
 fun PokemonTitle() {
-
+    Text(
+        text = stringResource(R.string.main_screen_title),
+        style = MaterialTheme.typography.headlineLarge,
+        fontWeight = FontWeight.Bold
+    )
 }
 
 @Composable
