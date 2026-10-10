@@ -1,4 +1,4 @@
-package com.haidershah.infinitescroll
+package com.haidershah.infinitescroll.view
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
