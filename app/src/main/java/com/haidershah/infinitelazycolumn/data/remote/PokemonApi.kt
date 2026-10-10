@@ -1,4 +1,4 @@
-package com.haidershah.infinitescroll.data.remote
+package com.haidershah.infinitelazycolumn.data.remote
 
 import retrofit2.http.GET
 import retrofit2.http.Url

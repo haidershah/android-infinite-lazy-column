@@ -1,9 +1,9 @@
-package com.haidershah.infinitescroll.ui.pokemon
+package com.haidershah.infinitelazycolumn.ui.pokemon
 
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.haidershah.infinitescroll.data.repository.PokemonRepository
+import com.haidershah.infinitelazycolumn.data.repository.PokemonRepository
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update

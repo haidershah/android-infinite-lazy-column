@@ -1,4 +1,4 @@
-package com.haidershah.infinitescroll.data.remote
+package com.haidershah.infinitelazycolumn.data.remote
 
 data class PokemonResponse(
     val count: Int,

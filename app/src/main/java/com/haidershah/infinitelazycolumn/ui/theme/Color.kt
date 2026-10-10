@@ -1,4 +1,4 @@
-package com.haidershah.infinitescroll.ui.theme
+package com.haidershah.infinitelazycolumn.ui.theme
 
 import androidx.compose.ui.graphics.Color
 

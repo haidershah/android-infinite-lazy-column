@@ -1,4 +1,4 @@
-package com.haidershah.infinitescroll.ui.pokemon
+package com.haidershah.infinitelazycolumn.ui.pokemon
 
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.foundation.background
@@ -11,6 +11,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
@@ -31,8 +32,8 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
-import com.haidershah.infinitescroll.R
-import com.haidershah.infinitescroll.data.remote.Pokemon
+import com.haidershah.infinitelazycolumn.R
+import com.haidershah.infinitelazycolumn.data.remote.Pokemon
 
 @Composable
 fun PokemonScreen(modifier: Modifier = Modifier, viewModel: PokemonViewModel = viewModel()) {
@@ -50,11 +51,16 @@ fun PokemonContent(
     numLoadedPokemons: Int,
     pokemons: List<Pokemon>
 ) {
+    val lazyListState = rememberLazyListState()
+
+    
+
     LazyColumn(
         modifier = modifier
             .padding(16.dp)
             .fillMaxSize(),
-        verticalArrangement = Arrangement.spacedBy(16.dp)
+        verticalArrangement = Arrangement.spacedBy(16.dp),
+        state = lazyListState
     ) {
         item {
             PokemonTitle()

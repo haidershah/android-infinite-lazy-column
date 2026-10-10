@@ -1,4 +1,4 @@
-package com.haidershah.infinitescroll
+package com.haidershah.infinitelazycolumn
 
 import org.junit.Test
 

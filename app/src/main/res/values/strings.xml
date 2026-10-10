@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">InfiniteScroll</string>
+    <string name="app_name">InfiniteLazyColumn</string>
     
     <string name="main_screen_title">Pokédex</string>
     <string name="loaded_pokemon">Loaded Pokémon</string>

@@ -22,5 +22,5 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = "InfiniteScroll"
+rootProject.name = "InfiniteLazyColumn"
 include(":app")

@@ -1,7 +1,7 @@
-package com.haidershah.infinitescroll.data.repository
+package com.haidershah.infinitelazycolumn.data.repository
 
-import com.haidershah.infinitescroll.data.remote.PokemonApi
-import com.haidershah.infinitescroll.data.remote.PokemonResponse
+import com.haidershah.infinitelazycolumn.data.remote.PokemonApi
+import com.haidershah.infinitelazycolumn.data.remote.PokemonResponse
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 

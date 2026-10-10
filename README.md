@@ -1,11 +1,11 @@
-# Android Infinite Scroll
+# Android Infinite Lazy Column
 
-A Kotlin / Jetpack Compose app that displays Pokémon from [PokéAPI](https://pokeapi.co/) using a reusable, generic `InfiniteScrollView` component.
+A Kotlin / Jetpack Compose app that displays Pokémon from [PokéAPI](https://pokeapi.co/) using a reusable, generic `InfiniteLazyColumn` component.
 
 ## Progress
 
 ### 0. Project setup
-- [x] Create Compose project (`com.haidershah.infinitescroll`, minSdk 24)
+- [x] Create Compose project (`com.haidershah.infinitelazycolumn`, minSdk 24)
 - [x] Initialize git and push to GitHub
 - [ ] Add dependencies (networking, serialization, lifecycle/ViewModel, testing)
 
@@ -30,7 +30,7 @@ A Kotlin / Jetpack Compose app that displays Pokémon from [PokéAPI](https://po
 - [ ] Initial load fills the screen (example video starts at 20 = two pages)
 - [ ] Retry after error
 
-### 4. `InfiniteScrollView` component
+### 4. `InfiniteLazyColumn` component
 - [ ] Generic over item type (no Pokémon knowledge)
 - [ ] Triggers load-more when the user nears the end of the list (prefetch threshold, so the user never hits the end)
 - [ ] Loading, success, and error states
@@ -59,7 +59,7 @@ A Kotlin / Jetpack Compose app that displays Pokémon from [PokéAPI](https://po
 ### 8. Unit tests
 - [ ] Repository tests (pagination, caching, error handling)
 - [ ] ViewModel tests (state transitions, duplicate request prevention, retry)
-- [ ] `InfiniteScrollView` load-more trigger logic
+- [ ] `InfiniteLazyColumn` load-more trigger logic
 
 ### 9. Cleanup
 - [ ] Remove unused imports (`colorResource`, `Log`)
@@ -87,7 +87,7 @@ _TODO_
 
 ## Key Design Decisions
 
-_TODO_
+- **`InfiniteLazyColumn` instead of `InfiniteScrollView`:** the prompt names the component `InfiniteScrollView`. It's named `InfiniteLazyColumn` here because it wraps a `LazyColumn` and follows Compose naming (`LazyColumn`, `LazyRow`), whereas "ScrollView" is a View-system term.
 
 ## Caching Strategy
 

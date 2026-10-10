@@ -4,13 +4,13 @@ plugins {
 }
 
 android {
-    namespace = "com.haidershah.infinitescroll"
+    namespace = "com.haidershah.infinitelazycolumn"
     compileSdk {
         version = release(37)
     }
 
     defaultConfig {
-        applicationId = "com.haidershah.infinitescroll"
+        applicationId = "com.haidershah.infinitelazycolumn"
         minSdk = 24
         targetSdk = 37
         versionCode = 1
