@@ -33,6 +33,7 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import com.haidershah.pokedex.R
 import com.haidershah.pokedex.data.remote.Pokemon
 import com.haidershah.pokedex.ui.components.InfiniteLazyColumn
+import com.haidershah.pokedex.ui.components.LoadState
 
 @Composable
 fun PokemonScreen(modifier: Modifier = Modifier, viewModel: PokemonViewModel = viewModel()) {
@@ -40,8 +41,14 @@ fun PokemonScreen(modifier: Modifier = Modifier, viewModel: PokemonViewModel = v
 
     val numLoadedPokemons = uiState.count
     val pokemons = uiState.pokemons
+    val loadState = uiState.loadState
 
-    PokemonContent(modifier, numLoadedPokemons, pokemons, loadData = { viewModel.getPokemons() })
+    PokemonContent(
+        modifier,
+        numLoadedPokemons,
+        pokemons,
+        loadState = loadState,
+        loadData = { viewModel.getPokemons() })
 }
 
 @Composable
@@ -49,6 +56,7 @@ fun PokemonContent(
     modifier: Modifier = Modifier,
     numLoadedPokemons: Int,
     pokemons: List<Pokemon>,
+    loadState: LoadState,
     loadData: () -> Unit
 ) {
     InfiniteLazyColumn(
@@ -59,6 +67,7 @@ fun PokemonContent(
         },
         items = pokemons,
         itemContent = { pokemon -> PokemonRow(pokemon) },
+        loadState = loadState,
         loadData = loadData
     )
 }
@@ -110,7 +119,7 @@ fun PokemonRow(pokemon: Pokemon) {
             Icon(
                 modifier = Modifier.size(30.dp),
                 painter = painterResource(R.drawable.baseline_bolt_24),
-                contentDescription = null,v
+                contentDescription = null,
             )
             Text(
                 modifier = Modifier.padding(start = 8.dp),

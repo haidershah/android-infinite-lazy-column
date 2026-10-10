@@ -1,7 +1,9 @@
 package com.haidershah.pokedex.ui.components
 
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListScope
@@ -23,6 +25,7 @@ fun <T> InfiniteLazyColumn(
     header: LazyListScope.() -> Unit = {},
     items: List<T>,
     itemContent: @Composable (T) -> Unit,
+    loadState: LoadState,
     loadData: () -> Unit
 ) {
     val lazyListState = rememberLazyListState()
@@ -44,7 +47,6 @@ fun <T> InfiniteLazyColumn(
             .padding(16.dp)
             .fillMaxSize(),
         verticalArrangement = Arrangement.spacedBy(16.dp),
-        horizontalAlignment = Alignment.CenterHorizontally,
         state = lazyListState
     ) {
         header()
@@ -53,8 +55,15 @@ fun <T> InfiniteLazyColumn(
             itemContent(it)
         }
 
-        item {
-            CircularProgressIndicator()
+        if (loadState == LoadState.Loading) {
+            item {
+                Box(
+                    modifier = Modifier.fillMaxWidth(),
+                    contentAlignment = Alignment.Center
+                ) {
+                    CircularProgressIndicator()
+                }
+            }
         }
     }
 }

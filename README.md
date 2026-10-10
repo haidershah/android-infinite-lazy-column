@@ -22,11 +22,11 @@ A Kotlin / Jetpack Compose app that displays Pokémon from [PokéAPI](https://po
 - [ ] Document what is cached, why, and tradeoffs
 
 ### 3. State management
-- [ ] Define UI state: items, `isLoading`, error, end reached
+- [x] Define UI state: items + sealed `LoadState` (`Idle`, `Loading`, `Error`, `EndReached`)
 - [x] Derive loaded count from `items.size`
 - [x] ViewModel exposes state and a load action that appends to the list
-- [ ] Prevent duplicate requests while a load is in progress (`isLoading` guard)
-- [ ] Handle end of list (`next == null`)
+- [ ] Prevent duplicate requests while a load is in progress (`LoadState.Loading` guard)
+- [x] Handle end of list (`next == null`) — stop requesting
 - [ ] Initial load fills the screen (example video starts at 20 = two pages)
 - [ ] Retry after error
 
@@ -62,7 +62,7 @@ A Kotlin / Jetpack Compose app that displays Pokémon from [PokéAPI](https://po
 - [ ] `InfiniteLazyColumn` load-more trigger logic
 
 ### 9. Cleanup
-- [ ] Remove unused imports (`colorResource`, `Log`)
+- [x] Remove unused imports (`colorResource`, `Log`)
 - [ ] Rename `UiState` → `PokemonUiState`
 - [ ] Inject repository via ViewModel constructor (needed for tests)
 - [ ] Declare `lifecycle-runtime-compose` explicitly (currently transitive)

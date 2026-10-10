@@ -33,7 +33,7 @@ class PokemonViewModel : ViewModel() {
             viewModelScope.launch {
 
                 // todo remove
-                delay(1_000.milliseconds)
+                delay(2_000.milliseconds)
 
                 Log.d(TAG, "Fetch Pokemons with url <$it>...")
                 val response = repository.getPokemons(it)
