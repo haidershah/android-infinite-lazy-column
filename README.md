@@ -8,7 +8,6 @@ A Kotlin / Jetpack Compose app that displays Pokémon from [PokéAPI](https://po
 - [x] Create Compose project (`com.haidershah.infinitescroll`, minSdk 24)
 - [x] Initialize git and push to GitHub
 - [ ] Add dependencies (networking, serialization, lifecycle/ViewModel, testing)
-- [ ] Decide on dependency injection approach (Hilt vs. manual)
 
 ### 1. Networking
 - [ ] Model the paginated API response (`count`, `next`, `previous`, `results`)
@@ -87,4 +86,4 @@ _TODO_
 
 ## Future Improvements
 
-_TODO_
+- Dependency injection framework (e.g. Hilt)
