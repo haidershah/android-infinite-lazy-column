@@ -12,8 +12,13 @@ object PokemonRepository {
         .build()
         .create(PokemonApi::class.java)
 
-    suspend fun getPokemons(url: String?): PokemonResponse {
-        return api.getPokemons(url ?: FIRST_PAGE_URL)
+    suspend fun getPokemons(url: String): PokemonResponse {
+        // load first page if url parameter is empty
+        return if (url.isEmpty()) {
+            api.getPokemons(FIRST_PAGE_URL)
+        } else {
+            api.getPokemons(url)
+        }
     }
 
     private const val FIRST_PAGE_URL = "pokemon?limit=10&offset=0"

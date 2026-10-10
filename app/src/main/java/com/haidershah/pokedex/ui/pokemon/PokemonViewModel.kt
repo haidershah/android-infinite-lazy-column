@@ -12,7 +12,7 @@ import kotlinx.coroutines.launch
 class PokemonViewModel : ViewModel() {
     private val repository = PokemonRepository
 
-    private var nextUrl: String? = null
+    private var nextUrl: String? = ""
 
     private val _uiState = MutableStateFlow(UiState())
     val uiState = _uiState.asStateFlow()
@@ -22,29 +22,33 @@ class PokemonViewModel : ViewModel() {
     }
 
     fun getPokemons() {
-        viewModelScope.launch {
-            Log.d(TAG, "Fetch Pokemons with url <$nextUrl>...")
-            val response = repository.getPokemons(nextUrl)
-            Log.d(TAG, "Response: $response")
+        nextUrl?.let { // nextUrl is not null, fetch data
+            viewModelScope.launch {
+                Log.d(TAG, "Fetch Pokemons with url <$it>...")
+                val response = repository.getPokemons(it)
+                Log.d(TAG, "Response: $response")
 
-            // store nextUrl
-            nextUrl = response.next
+                // store nextUrl
+                nextUrl = response.next
 
-            // change the first character of name to uppercase
-            val newPokemons = response.results.map { pokemon ->
-                pokemon.copy(name = pokemon.name.replaceFirstChar { firstCharacter ->
-                    firstCharacter.uppercase()
-                })
+                // change the first character of name to uppercase
+                val newPokemons = response.results.map { pokemon ->
+                    pokemon.copy(name = pokemon.name.replaceFirstChar { firstCharacter ->
+                        firstCharacter.uppercase()
+                    })
+                }
+
+                _uiState.update { currentUiState ->
+                    val pokemons = currentUiState.pokemons + newPokemons
+
+                    currentUiState.copy(
+                        count = pokemons.size,
+                        pokemons = pokemons
+                    )
+                }
             }
-
-            _uiState.update { currentUiState ->
-                val pokemons = currentUiState.pokemons + newPokemons
-
-                currentUiState.copy(
-                    count = pokemons.size,
-                    pokemons = pokemons
-                )
-            }
+        } ?: run { // user has reached end of screen
+            // todo nextUrl == null reached end of list. let user know.
         }
     }
 
