@@ -1,6 +1,5 @@
 package com.haidershah.pokedex.ui.pokemon
 
-import androidx.compose.animation.AnimatedContent
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -10,9 +9,9 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.LazyListScope
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
-import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Icon
@@ -22,12 +21,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
@@ -56,7 +52,10 @@ fun PokemonContent(
 ) {
     InfiniteLazyColumn(
         modifier = modifier,
-        numLoadedPokemons = numLoadedPokemons,
+        header = {
+            item { PokemonTitle() }
+            stickyHeader { LoadedPokemonCount(numLoadedPokemons) }
+        },
         pokemons = pokemons,
         loadData = loadData
     )
@@ -64,11 +63,7 @@ fun PokemonContent(
 
 @Composable
 fun PokemonTitle() {
-    Text(
-        text = stringResource(R.string.main_screen_title),
-        style = MaterialTheme.typography.headlineLarge,
-        fontWeight = FontWeight.Bold
-    )
+
 }
 
 @Composable
@@ -96,7 +91,7 @@ fun LoadedPokemonCount(numLoadedPokemons: Int) {
 @Composable
 fun InfiniteLazyColumn(
     modifier: Modifier = Modifier,
-    numLoadedPokemons: Int,
+    header: LazyListScope.() -> Unit = {},
     pokemons: List<Pokemon>,
     loadData: () -> Unit
 ) {
@@ -122,13 +117,7 @@ fun InfiniteLazyColumn(
         verticalArrangement = Arrangement.spacedBy(16.dp),
         state = lazyListState
     ) {
-        item {
-            PokemonTitle()
-        }
-
-        stickyHeader {
-            LoadedPokemonCount(numLoadedPokemons)
-        }
+        header()
 
         items(items = pokemons) {
             Card(
