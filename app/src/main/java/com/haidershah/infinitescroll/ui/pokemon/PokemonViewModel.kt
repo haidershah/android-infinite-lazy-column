@@ -1,4 +1,4 @@
-package com.haidershah.infinitescroll.viewmodel
+package com.haidershah.infinitescroll.ui.pokemon
 
 import androidx.lifecycle.ViewModel
 

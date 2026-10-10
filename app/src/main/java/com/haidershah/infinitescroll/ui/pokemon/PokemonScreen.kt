@@ -1,4 +1,4 @@
-package com.haidershah.infinitescroll.view
+package com.haidershah.infinitescroll.ui.pokemon
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -13,10 +13,8 @@ import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.haidershah.infinitescroll.R
-import com.haidershah.infinitescroll.viewmodel.PokemonViewModel
 
 @Composable
 fun PokemonScreen(modifier: Modifier = Modifier, viewModel: PokemonViewModel = viewModel()) {
@@ -33,7 +31,7 @@ fun PokemonContent(modifier: Modifier = Modifier) {
         Text(
             text = stringResource(R.string.main_screen_title),
             style = MaterialTheme.typography.headlineLarge,
-            fontWeight = FontWeight.Bold,
+            fontWeight = FontWeight.Bold
         )
 
         Column(
