@@ -12,8 +12,9 @@ A Kotlin / Jetpack Compose app that displays Pokémon from [PokéAPI](https://po
 ### 1. Networking
 - [x] Model the paginated API response (`count`, `next`, `previous`, `results`)
 - [x] Create API service for `https://pokeapi.co/api/v2/pokemon?limit=10&offset=0`
-- [ ] Load subsequent pages using the `next` URL
-- [ ] Handle failures gracefully (no connectivity, HTTP errors, malformed responses)
+- [ ] Page size back to `limit=10` per the prompt (currently 20)
+- [ ] Load subsequent pages using the `next` URL (Retrofit `@Url`)
+- [ ] Handle failures gracefully (no connectivity, HTTP errors, malformed responses) — catch in ViewModel, store in UI state
 
 ### 2. Repository & caching
 - [x] Repository layer between network and ViewModel
@@ -21,27 +22,31 @@ A Kotlin / Jetpack Compose app that displays Pokémon from [PokéAPI](https://po
 - [ ] Document what is cached, why, and tradeoffs
 
 ### 3. State management
-- [ ] Define UI state (items, load state, total loaded count)
-- [ ] ViewModel exposes state and a "load more" action
-- [ ] Prevent duplicate requests while a load is in progress
+- [ ] Define UI state: items, `isLoading`, error, end reached
+- [ ] Derive loaded count from `items.size` (currently `response.results.size` = current page only)
+- [ ] ViewModel exposes state and a `loadNextPage()` action that appends to the list
+- [ ] Prevent duplicate requests while a load is in progress (`isLoading` guard)
 - [ ] Handle end of list (`next == null`)
+- [ ] Initial load fills the screen (example video starts at 20 = two pages)
 - [ ] Retry after error
 
 ### 4. `InfiniteScrollView` component
 - [ ] Generic over item type (no Pokémon knowledge)
-- [ ] Triggers load-more when the user nears the end of the list
+- [ ] Triggers load-more when the user nears the end of the list (prefetch threshold, so the user never hits the end)
 - [ ] Loading, success, and error states
 - [ ] Customizable item, loading, and error content
 
 ### 5. Pokémon list screen
 - [x] Display Pokémon names
+- [x] Loaded-count header stays pinned (`stickyHeader`) while the title scrolls away
 - [ ] Display total number of Pokémon currently loaded
 - [ ] Seamless loading while scrolling
 - [ ] `@Preview` for the stateless `PokemonContent` (loading, loaded, error, end-of-list states)
 
 ### 6. Animations
-- [ ] Animate newly loaded rows as they appear
-- [ ] Animated loading indicator / footer (e.g. shimmer or skeleton)
+- [ ] Animate newly loaded rows as they appear (fade in, as in the example video)
+- [ ] Animate the loaded count when it changes (as in the example video)
+- [ ] Animated loading indicator / footer (e.g. shimmer or skeleton) — required by the prompt, not clearly visible in the video
 - [ ] Keep animations smooth as the list grows
 - [ ] Respect reduced-motion settings
 
@@ -56,7 +61,14 @@ A Kotlin / Jetpack Compose app that displays Pokémon from [PokéAPI](https://po
 - [ ] ViewModel tests (state transitions, duplicate request prevention, retry)
 - [ ] `InfiniteScrollView` load-more trigger logic
 
-### 9. Documentation
+### 9. Cleanup
+- [ ] Remove unused imports (`colorResource`, `Log`)
+- [ ] Rename `UiState` → `PokemonUiState`
+- [ ] Inject repository via ViewModel constructor (needed for tests)
+- [ ] Declare `lifecycle-runtime-compose` explicitly (currently transitive)
+- [ ] Add test dependencies (`kotlinx-coroutines-test`)
+
+### 10. Documentation
 - [ ] Build instructions
 - [ ] Architecture overview
 - [ ] Key design decisions
