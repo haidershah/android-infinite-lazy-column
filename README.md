@@ -10,13 +10,13 @@ A Kotlin / Jetpack Compose app that displays Pokémon from [PokéAPI](https://po
 - [ ] Add dependencies (networking, serialization, lifecycle/ViewModel, testing)
 
 ### 1. Networking
-- [ ] Model the paginated API response (`count`, `next`, `previous`, `results`)
-- [ ] Create API service for `https://pokeapi.co/api/v2/pokemon?limit=10&offset=0`
+- [x] Model the paginated API response (`count`, `next`, `previous`, `results`)
+- [x] Create API service for `https://pokeapi.co/api/v2/pokemon?limit=10&offset=0`
 - [ ] Load subsequent pages using the `next` URL
 - [ ] Handle failures gracefully (no connectivity, HTTP errors, malformed responses)
 
 ### 2. Repository & caching
-- [ ] Repository layer between network and ViewModel
+- [x] Repository layer between network and ViewModel
 - [ ] Implement caching strategy
 - [ ] Document what is cached, why, and tradeoffs
 
