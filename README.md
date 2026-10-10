@@ -12,7 +12,7 @@ A Kotlin / Jetpack Compose app that displays Pokémon from [PokéAPI](https://po
 ### 1. Networking
 - [x] Model the paginated API response (`count`, `next`, `previous`, `results`)
 - [x] Create API service for `https://pokeapi.co/api/v2/pokemon?limit=10&offset=0`
-- [ ] Page size back to `limit=10` per the prompt (currently 20)
+- [x] Page size back to `limit=10` per the prompt
 - [ ] Load subsequent pages using the `next` URL (Retrofit `@Url`)
 - [ ] Handle failures gracefully (no connectivity, HTTP errors, malformed responses) — catch in ViewModel, store in UI state
 
@@ -118,5 +118,5 @@ The alternative is to start loading lazily when the UI first collects the state:
 
 ## Future Improvements
 
-- Dependency injection framework (e.g. Hilt)
+- Dependency injection framework (e.g. Hilt): the app currently uses manual DI — constructor injection (`PokemonRepository(api)`, `PokemonViewModel(repository)`), a single `AppContainer` that builds Retrofit and the repository, and a `viewModelFactory` to construct the ViewModel. A framework is overkill for one screen, but would replace the container and factory as the app grows
 - Replace Gson with kotlinx.serialization: Gson ignores Kotlin nullability, so a missing field can land as `null` in a non-null property and crash later; kotlinx.serialization fails at parse time instead

@@ -90,24 +90,6 @@ fun PokemonContent(
                 }
             }
         }
-
-
-        // delete
-        item {
-            Row {
-                var count by remember { mutableIntStateOf(0) }
-                Button(onClick = { count++ }) {
-                    Text("Add")
-                }
-                AnimatedContent(
-                    targetState = count,
-                    label = "animated content"
-                ) { targetCount ->
-                    // Make sure to use `targetCount`, not `count`.
-                    Text(text = "$targetCount")
-                }
-            }
-        }
     }
 }
 
