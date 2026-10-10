@@ -25,7 +25,7 @@ A Kotlin / Jetpack Compose app that displays Pokémon from [PokéAPI](https://po
 - [x] Define UI state: items + sealed `LoadState` (`Idle`, `Loading`, `Error`, `EndReached`)
 - [x] Derive loaded count from `items.size`
 - [x] ViewModel exposes state and a load action that appends to the list
-- [ ] Prevent duplicate requests while a load is in progress (`LoadState.Loading` guard)
+- [x] Prevent duplicate requests while a load is in progress (`LoadState.Loading` guard)
 - [x] Handle end of list (`next == null`) — stop requesting
 - [ ] Initial load fills the screen (example video starts at 20 = two pages)
 - [ ] Retry after error

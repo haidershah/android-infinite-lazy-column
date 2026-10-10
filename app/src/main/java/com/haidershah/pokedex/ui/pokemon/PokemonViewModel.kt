@@ -25,6 +25,11 @@ class PokemonViewModel : ViewModel() {
     }
 
     fun getPokemons() {
+        // prevent duplicate requests
+        if (uiState.value.loadState == LoadState.Loading) {
+            return
+        }
+
         nextUrl?.let { // nextUrl is not null, fetch data
             _uiState.update { currentUiState ->
                 currentUiState.copy(loadState = LoadState.Loading)
