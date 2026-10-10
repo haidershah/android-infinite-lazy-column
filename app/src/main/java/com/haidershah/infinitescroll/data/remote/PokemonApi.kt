@@ -1,9 +1,10 @@
 package com.haidershah.infinitescroll.data.remote
 
 import retrofit2.http.GET
+import retrofit2.http.Url
 
 interface PokemonApi {
 
-    @GET("pokemon?limit=10&offset=0")
-    suspend fun getPokemons(): PokemonResponse
+    @GET
+    suspend fun getPokemons(@Url url: String): PokemonResponse
 }

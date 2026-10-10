@@ -4,7 +4,6 @@ import com.haidershah.infinitescroll.data.remote.PokemonApi
 import com.haidershah.infinitescroll.data.remote.PokemonResponse
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
-import retrofit2.create
 
 object PokemonRepository {
     private val api = Retrofit.Builder()
@@ -13,5 +12,9 @@ object PokemonRepository {
         .build()
         .create(PokemonApi::class.java)
 
-    suspend fun getPokemons(): PokemonResponse = api.getPokemons()
+    suspend fun getPokemons(url: String = FIRST_PAGE_URL): PokemonResponse {
+        return api.getPokemons(url)
+    }
+
+    private const val FIRST_PAGE_URL = "pokemon?limit=10&offset=0"
 }
