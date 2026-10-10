@@ -22,8 +22,19 @@ class PokemonViewModel : ViewModel() {
     fun getPokemons() {
         viewModelScope.launch {
             val response = repository.getPokemons()
-            _uiState.update {
-                it.copy(count = response.results.size, pokemons = response.results)
+
+            // change the first character of name to uppercase
+            val pokemons = response.results.map { pokemon ->
+                pokemon.copy(name = pokemon.name.replaceFirstChar { firstCharacter ->
+                    firstCharacter.uppercase()
+                })
+            }
+
+            _uiState.update { currentUiState ->
+                currentUiState.copy(
+                    count = response.results.size,
+                    pokemons = pokemons
+                )
             }
         }
     }
