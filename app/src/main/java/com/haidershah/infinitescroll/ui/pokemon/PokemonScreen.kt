@@ -1,5 +1,6 @@
 package com.haidershah.infinitescroll.ui.pokemon
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -39,9 +40,11 @@ fun PokemonScreen(modifier: Modifier = Modifier, viewModel: PokemonViewModel = v
 }
 
 @Composable
-fun PokemonContent(modifier: Modifier = Modifier,
-                   numLoadedPokemons: Int,
-                   pokemons: List<Pokemon>) {
+fun PokemonContent(
+    modifier: Modifier = Modifier,
+    numLoadedPokemons: Int,
+    pokemons: List<Pokemon>
+) {
     LazyColumn(
         modifier = modifier
             .padding(16.dp)
@@ -52,7 +55,7 @@ fun PokemonContent(modifier: Modifier = Modifier,
             PokemonTitle()
         }
 
-        item {
+        stickyHeader {
             LoadedPokemonCount(numLoadedPokemons)
         }
 
@@ -74,6 +77,7 @@ fun PokemonContent(modifier: Modifier = Modifier,
                         contentDescription = null,
                     )
                     Text(
+                        modifier = Modifier.padding(start = 8.dp),
                         text = it.name,
                         style = MaterialTheme.typography.headlineSmall,
                         fontWeight = FontWeight.SemiBold
@@ -97,7 +101,9 @@ fun PokemonTitle() {
 fun LoadedPokemonCount(numLoadedPokemons: Int) {
     Column(
         modifier = Modifier
-            .fillMaxWidth(),
+            .fillMaxWidth()
+            .background(color = MaterialTheme.colorScheme.background)
+            .padding(bottom = 8.dp),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Text(
