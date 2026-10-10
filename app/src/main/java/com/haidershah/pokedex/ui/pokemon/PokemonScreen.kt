@@ -54,6 +54,53 @@ fun PokemonContent(
     pokemons: List<Pokemon>,
     loadData: () -> Unit
 ) {
+    InfiniteLazyColumn(
+        modifier = modifier,
+        numLoadedPokemons = numLoadedPokemons,
+        pokemons = pokemons,
+        loadData = loadData
+    )
+}
+
+@Composable
+fun PokemonTitle() {
+    Text(
+        text = stringResource(R.string.main_screen_title),
+        style = MaterialTheme.typography.headlineLarge,
+        fontWeight = FontWeight.Bold
+    )
+}
+
+@Composable
+fun LoadedPokemonCount(numLoadedPokemons: Int) {
+    Column(
+        modifier = Modifier
+            .fillMaxWidth()
+            .background(color = MaterialTheme.colorScheme.background)
+            .padding(bottom = 8.dp),
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+        Text(
+            text = stringResource(R.string.loaded_pokemon),
+            style = MaterialTheme.typography.bodyMedium,
+            color = MaterialTheme.colorScheme.outline,
+        )
+        Text(
+            text = numLoadedPokemons.toString(),
+            style = MaterialTheme.typography.displayMedium,
+            fontWeight = FontWeight.Bold
+        )
+    }
+}
+
+@Composable
+fun InfiniteLazyColumn(
+    modifier: Modifier = Modifier,
+    numLoadedPokemons: Int,
+    pokemons: List<Pokemon>,
+    loadData: () -> Unit
+) {
+
     val lazyListState = rememberLazyListState()
 
     val isAtBottom by remember {
@@ -109,36 +156,5 @@ fun PokemonContent(
                 }
             }
         }
-    }
-}
-
-@Composable
-fun PokemonTitle() {
-    Text(
-        text = stringResource(R.string.main_screen_title),
-        style = MaterialTheme.typography.headlineLarge,
-        fontWeight = FontWeight.Bold
-    )
-}
-
-@Composable
-fun LoadedPokemonCount(numLoadedPokemons: Int) {
-    Column(
-        modifier = Modifier
-            .fillMaxWidth()
-            .background(color = MaterialTheme.colorScheme.background)
-            .padding(bottom = 8.dp),
-        horizontalAlignment = Alignment.CenterHorizontally
-    ) {
-        Text(
-            text = stringResource(R.string.loaded_pokemon),
-            style = MaterialTheme.typography.bodyMedium,
-            color = MaterialTheme.colorScheme.outline,
-        )
-        Text(
-            text = numLoadedPokemons.toString(),
-            style = MaterialTheme.typography.displayMedium,
-            fontWeight = FontWeight.Bold
-        )
     }
 }
