@@ -32,6 +32,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.haidershah.pokedex.R
 import com.haidershah.pokedex.data.remote.Pokemon
+import com.haidershah.pokedex.ui.components.InfiniteLazyColumn
 
 @Composable
 fun PokemonScreen(modifier: Modifier = Modifier, viewModel: PokemonViewModel = viewModel()) {
@@ -117,43 +118,6 @@ fun PokemonRow(pokemon: Pokemon) {
                 style = MaterialTheme.typography.headlineSmall,
                 fontWeight = FontWeight.SemiBold
             )
-        }
-    }
-}
-
-@Composable
-fun <T> InfiniteLazyColumn(
-    modifier: Modifier = Modifier,
-    header: LazyListScope.() -> Unit = {},
-    items: List<T>,
-    itemContent: @Composable (T) -> Unit,
-    loadData: () -> Unit
-) {
-    val lazyListState = rememberLazyListState()
-
-    val isAtBottom by remember {
-        derivedStateOf {
-            !lazyListState.canScrollForward
-        }
-    }
-
-    LaunchedEffect(isAtBottom) {
-        if (isAtBottom) {
-            loadData()
-        }
-    }
-
-    LazyColumn(
-        modifier = modifier
-            .padding(16.dp)
-            .fillMaxSize(),
-        verticalArrangement = Arrangement.spacedBy(16.dp),
-        state = lazyListState
-    ) {
-        header()
-
-        items(items = items) {
-            itemContent(it)
         }
     }
 }
