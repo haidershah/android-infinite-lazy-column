@@ -1,4 +1,4 @@
-package com.haidershah.infinitelazycolumn.ui.pokemon
+package com.haidershah.pokedex.ui.pokemon
 
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.foundation.background
@@ -32,8 +32,8 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
-import com.haidershah.infinitelazycolumn.R
-import com.haidershah.infinitelazycolumn.data.remote.Pokemon
+import com.haidershah.pokedex.R
+import com.haidershah.pokedex.data.remote.Pokemon
 
 @Composable
 fun PokemonScreen(modifier: Modifier = Modifier, viewModel: PokemonViewModel = viewModel()) {

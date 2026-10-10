@@ -5,7 +5,7 @@ A Kotlin / Jetpack Compose app that displays Pokémon from [PokéAPI](https://po
 ## Progress
 
 ### 0. Project setup
-- [x] Create Compose project (`com.haidershah.infinitelazycolumn`, minSdk 24)
+- [x] Create Compose project (`com.haidershah.pokedex`, minSdk 24)
 - [x] Initialize git and push to GitHub
 - [ ] Add dependencies (networking, serialization, lifecycle/ViewModel, testing)
 

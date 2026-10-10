@@ -1,4 +1,4 @@
-package com.haidershah.infinitelazycolumn.data.remote
+package com.haidershah.pokedex.data.remote
 
 import retrofit2.http.GET
 import retrofit2.http.Url

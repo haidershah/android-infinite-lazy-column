@@ -1,4 +1,4 @@
-package com.haidershah.infinitelazycolumn
+package com.haidershah.pokedex
 
 import org.junit.Test
 

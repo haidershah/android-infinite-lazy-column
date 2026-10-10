@@ -1,4 +1,4 @@
-package com.haidershah.infinitelazycolumn
+package com.haidershah.pokedex
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
@@ -8,15 +8,15 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
 import androidx.compose.ui.Modifier
-import com.haidershah.infinitelazycolumn.ui.pokemon.PokemonScreen
-import com.haidershah.infinitelazycolumn.ui.theme.InfiniteLazyColumnTheme
+import com.haidershah.pokedex.ui.pokemon.PokemonScreen
+import com.haidershah.pokedex.ui.theme.PokedexTheme
 
 class PokemonActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContent {
-            InfiniteLazyColumnTheme {
+            PokedexTheme {
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
                     PokemonScreen(
                         modifier = Modifier.padding(innerPadding)

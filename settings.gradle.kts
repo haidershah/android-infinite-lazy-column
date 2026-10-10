@@ -22,5 +22,5 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = "InfiniteLazyColumn"
+rootProject.name = "Pokedex"
 include(":app")

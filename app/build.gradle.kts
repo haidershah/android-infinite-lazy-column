@@ -4,13 +4,13 @@ plugins {
 }
 
 android {
-    namespace = "com.haidershah.infinitelazycolumn"
+    namespace = "com.haidershah.pokedex"
     compileSdk {
         version = release(37)
     }
 
     defaultConfig {
-        applicationId = "com.haidershah.infinitelazycolumn"
+        applicationId = "com.haidershah.pokedex"
         minSdk = 24
         targetSdk = 37
         versionCode = 1

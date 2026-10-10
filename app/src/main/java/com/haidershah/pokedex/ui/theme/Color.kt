@@ -1,4 +1,4 @@
-package com.haidershah.infinitelazycolumn.ui.theme
+package com.haidershah.pokedex.ui.theme
 
 import androidx.compose.ui.graphics.Color
 
