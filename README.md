@@ -31,7 +31,7 @@ A Kotlin / Jetpack Compose app that displays Pokémon from [PokéAPI](https://po
 - [ ] Retry after error
 
 ### 4. `InfiniteLazyColumn` component
-- [ ] Generic over item type (no Pokémon knowledge)
+- [x] Generic over item type (no Pokémon knowledge)
 - [ ] Triggers load-more when the user nears the end of the list (prefetch threshold, so the user never hits the end)
 - [ ] Loading, success, and error states
 - [ ] Customizable item, loading, and error content

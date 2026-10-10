@@ -4,10 +4,12 @@ import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.haidershah.pokedex.data.repository.PokemonRepository
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import kotlin.time.Duration.Companion.milliseconds
 
 class PokemonViewModel : ViewModel() {
     private val repository = PokemonRepository
@@ -24,6 +26,10 @@ class PokemonViewModel : ViewModel() {
     fun getPokemons() {
         nextUrl?.let { // nextUrl is not null, fetch data
             viewModelScope.launch {
+
+                // todo remove
+                delay(1_000.milliseconds)
+
                 Log.d(TAG, "Fetch Pokemons with url <$it>...")
                 val response = repository.getPokemons(it)
                 Log.d(TAG, "Response: $response")
