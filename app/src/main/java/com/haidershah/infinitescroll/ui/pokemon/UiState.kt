@@ -1,3 +1,5 @@
 package com.haidershah.infinitescroll.ui.pokemon
 
-data class UiState(val count: Int = 0)
+import com.haidershah.infinitescroll.data.remote.Pokemon
+
+data class UiState(val count: Int = 0, val pokemons: List<Pokemon> = emptyList())

@@ -23,7 +23,7 @@ class PokemonViewModel : ViewModel() {
         viewModelScope.launch {
             val response = repository.getPokemons()
             _uiState.update {
-                it.copy(count = response.results.size)
+                it.copy(count = response.results.size, pokemons = response.results)
             }
         }
     }
