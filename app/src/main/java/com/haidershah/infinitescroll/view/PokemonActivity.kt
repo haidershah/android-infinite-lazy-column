@@ -4,7 +4,6 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -31,7 +30,7 @@ class PokemonActivity : ComponentActivity() {
         setContent {
             InfiniteScrollTheme {
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    MainScreen(
+                    PokemonScreen(
                         modifier = Modifier.padding(innerPadding)
                     )
                 }
@@ -41,7 +40,12 @@ class PokemonActivity : ComponentActivity() {
 }
 
 @Composable
-fun MainScreen(modifier: Modifier = Modifier, viewModel: PokemonViewModel = viewModel()) {
+fun PokemonScreen(modifier: Modifier = Modifier, viewModel: PokemonViewModel = viewModel()) {
+    PokemonContent(modifier)
+}
+
+@Composable
+fun PokemonContent(modifier: Modifier = Modifier) {
     Column(
         modifier = modifier
             .padding(16.dp)
