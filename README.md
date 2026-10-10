@@ -83,7 +83,22 @@ _TODO_
 
 ## Tradeoffs
 
-_TODO_
+### Initial load in `init` vs. lazy `Flow.onStart`
+
+The first page is loaded from the ViewModel's `init` block.
+
+The alternative is to start loading lazily when the UI first collects the state: `Flow.onStart { … }` combined with `stateIn(viewModelScope, SharingStarted.WhileSubscribed(5_000), …)`, as in Google's Now in Android sample.
+
+**What lazy loading would give:**
+- No work until something is observing the state.
+- Tests control when loading starts; constructing the ViewModel has no side effects.
+
+**Why `init` was chosen instead:**
+- In a single-screen app the ViewModel is only created because the screen is shown and immediately collected, so the two approaches start loading at effectively the same moment.
+- `init` is simpler: a single exposed `StateFlow`, no restart behavior to reason about.
+- With `WhileSubscribed`, the upstream restarts after the app is backgrounded for more than 5 seconds, re-running `onStart`. That requires an extra "already have data" guard to avoid reloading, which is easy to get subtly wrong.
+
+**Cost of this choice:** loading starts as soon as the ViewModel is constructed, so unit tests must install a test Main dispatcher and inject a fake repository *before* creating the ViewModel. With more screens or ViewModels created ahead of display (e.g. pre-composed navigation destinations), the lazy approach would be worth revisiting.
 
 ## Future Improvements
 
