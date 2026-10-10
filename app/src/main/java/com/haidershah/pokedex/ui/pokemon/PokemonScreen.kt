@@ -56,7 +56,8 @@ fun PokemonContent(
             item { PokemonTitle() }
             stickyHeader { LoadedPokemonCount(numLoadedPokemons) }
         },
-        pokemons = pokemons,
+        items = pokemons,
+        itemContent = { pokemon -> PokemonRow(pokemon) },
         loadData = loadData
     )
 }
@@ -93,13 +94,41 @@ fun LoadedPokemonCount(numLoadedPokemons: Int) {
 }
 
 @Composable
-fun InfiniteLazyColumn(
+fun PokemonRow(pokemon: Pokemon) {
+    Card(
+        colors = CardDefaults.cardColors(
+            MaterialTheme.colorScheme.surfaceContainer
+        )
+    ) {
+        Row(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(16.dp),
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            Icon(
+                modifier = Modifier.size(30.dp),
+                painter = painterResource(R.drawable.baseline_bolt_24),
+                contentDescription = null,
+            )
+            Text(
+                modifier = Modifier.padding(start = 8.dp),
+                text = pokemon.name,
+                style = MaterialTheme.typography.headlineSmall,
+                fontWeight = FontWeight.SemiBold
+            )
+        }
+    }
+}
+
+@Composable
+fun <T> InfiniteLazyColumn(
     modifier: Modifier = Modifier,
     header: LazyListScope.() -> Unit = {},
-    pokemons: List<Pokemon>,
+    items: List<T>,
+    itemContent: @Composable (T) -> Unit,
     loadData: () -> Unit
 ) {
-
     val lazyListState = rememberLazyListState()
 
     val isAtBottom by remember {
@@ -123,31 +152,8 @@ fun InfiniteLazyColumn(
     ) {
         header()
 
-        items(items = pokemons) {
-            Card(
-                colors = CardDefaults.cardColors(
-                    MaterialTheme.colorScheme.surfaceContainer
-                )
-            ) {
-                Row(
-                    modifier = Modifier
-                        .fillMaxSize()
-                        .padding(16.dp),
-                    verticalAlignment = Alignment.CenterVertically
-                ) {
-                    Icon(
-                        modifier = Modifier.size(30.dp),
-                        painter = painterResource(R.drawable.baseline_bolt_24),
-                        contentDescription = null,
-                    )
-                    Text(
-                        modifier = Modifier.padding(start = 8.dp),
-                        text = it.name,
-                        style = MaterialTheme.typography.headlineSmall,
-                        fontWeight = FontWeight.SemiBold
-                    )
-                }
-            }
+        items(items = items) {
+            itemContent(it)
         }
     }
 }
