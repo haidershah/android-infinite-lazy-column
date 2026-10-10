@@ -13,7 +13,7 @@ A Kotlin / Jetpack Compose app that displays Pokémon from [PokéAPI](https://po
 - [x] Model the paginated API response (`count`, `next`, `previous`, `results`)
 - [x] Create API service for `https://pokeapi.co/api/v2/pokemon?limit=10&offset=0`
 - [x] Page size back to `limit=10` per the prompt
-- [ ] Load subsequent pages using the `next` URL (Retrofit `@Url`)
+- [x] Load subsequent pages using the `next` URL (Retrofit `@Url`)
 - [ ] Handle failures gracefully (no connectivity, HTTP errors, malformed responses) — catch in ViewModel, store in UI state
 
 ### 2. Repository & caching
@@ -23,8 +23,8 @@ A Kotlin / Jetpack Compose app that displays Pokémon from [PokéAPI](https://po
 
 ### 3. State management
 - [ ] Define UI state: items, `isLoading`, error, end reached
-- [ ] Derive loaded count from `items.size` (currently `response.results.size` = current page only)
-- [ ] ViewModel exposes state and a `loadNextPage()` action that appends to the list
+- [x] Derive loaded count from `items.size`
+- [x] ViewModel exposes state and a load action that appends to the list
 - [ ] Prevent duplicate requests while a load is in progress (`isLoading` guard)
 - [ ] Handle end of list (`next == null`)
 - [ ] Initial load fills the screen (example video starts at 20 = two pages)
@@ -39,7 +39,7 @@ A Kotlin / Jetpack Compose app that displays Pokémon from [PokéAPI](https://po
 ### 5. Pokémon list screen
 - [x] Display Pokémon names
 - [x] Loaded-count header stays pinned (`stickyHeader`) while the title scrolls away
-- [ ] Display total number of Pokémon currently loaded
+- [x] Display total number of Pokémon currently loaded
 - [ ] Seamless loading while scrolling
 - [ ] `@Preview` for the stateless `PokemonContent` (loading, loaded, error, end-of-list states)
 
