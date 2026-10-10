@@ -68,7 +68,8 @@ fun PokemonContent(
         items = pokemons,
         itemContent = { pokemon -> PokemonRow(pokemon) },
         loadState = loadState,
-        loadData = loadData
+        loadData = loadData,
+        loadMoreThreshold = 3,
     )
 }
 

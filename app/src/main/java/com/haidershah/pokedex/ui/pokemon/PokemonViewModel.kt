@@ -27,6 +27,7 @@ class PokemonViewModel : ViewModel() {
     fun getPokemons() {
         // prevent duplicate requests
         if (uiState.value.loadState == LoadState.Loading) {
+            Log.d(TAG, "Already loading, no need to make another request.")
             return
         }
 

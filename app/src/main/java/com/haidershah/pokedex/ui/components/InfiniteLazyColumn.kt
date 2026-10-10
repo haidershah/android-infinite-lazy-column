@@ -1,5 +1,6 @@
 package com.haidershah.pokedex.ui.components
 
+import android.util.Log
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
@@ -26,18 +27,21 @@ fun <T> InfiniteLazyColumn(
     items: List<T>,
     itemContent: @Composable (T) -> Unit,
     loadState: LoadState,
-    loadData: () -> Unit
+    loadData: () -> Unit,
+    loadMoreThreshold: Int
 ) {
     val lazyListState = rememberLazyListState()
 
-    val isAtBottom by remember {
+    val isNearBottomOfScreen by remember {
         derivedStateOf {
-            !lazyListState.canScrollForward
+            val lastVisibleItemIndex =
+                lazyListState.layoutInfo.visibleItemsInfo.lastOrNull()?.index ?: 0
+            lastVisibleItemIndex >= lazyListState.layoutInfo.totalItemsCount - loadMoreThreshold
         }
     }
 
-    LaunchedEffect(isAtBottom) {
-        if (isAtBottom) {
+    LaunchedEffect(isNearBottomOfScreen, items.size) {
+        if (isNearBottomOfScreen) {
             loadData()
         }
     }
