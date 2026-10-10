@@ -1,13 +1,16 @@
 package com.haidershah.infinitescroll.ui.pokemon
 
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -36,11 +39,14 @@ fun PokemonScreen(modifier: Modifier = Modifier, viewModel: PokemonViewModel = v
 }
 
 @Composable
-fun PokemonContent(modifier: Modifier = Modifier, numLoadedPokemons: Int, pokemons: List<Pokemon>) {
+fun PokemonContent(modifier: Modifier = Modifier,
+                   numLoadedPokemons: Int,
+                   pokemons: List<Pokemon>) {
     LazyColumn(
         modifier = modifier
             .padding(16.dp)
-            .fillMaxSize()
+            .fillMaxSize(),
+        verticalArrangement = Arrangement.spacedBy(16.dp)
     ) {
         item {
             PokemonTitle()
@@ -52,13 +58,26 @@ fun PokemonContent(modifier: Modifier = Modifier, numLoadedPokemons: Int, pokemo
 
         items(items = pokemons) {
             Card(
-                modifier = Modifier
-                    .padding(16.dp)
-                    .fillMaxWidth()
+                colors = CardDefaults.cardColors(
+                    MaterialTheme.colorScheme.surfaceContainer
+                )
             ) {
-                Row() {
-                    Icon(painter = painterResource(R.drawable.baseline_bolt_24), contentDescription = null)
-                    Text(text = it.name)
+                Row(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .padding(16.dp),
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Icon(
+                        modifier = Modifier.size(30.dp),
+                        painter = painterResource(R.drawable.baseline_bolt_24),
+                        contentDescription = null,
+                    )
+                    Text(
+                        text = it.name,
+                        style = MaterialTheme.typography.headlineSmall,
+                        fontWeight = FontWeight.SemiBold
+                    )
                 }
             }
         }
@@ -78,8 +97,7 @@ fun PokemonTitle() {
 fun LoadedPokemonCount(numLoadedPokemons: Int) {
     Column(
         modifier = Modifier
-            .fillMaxWidth()
-            .padding(top = 32.dp),
+            .fillMaxWidth(),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Text(
