@@ -2,7 +2,6 @@ package com.haidershah.pokedex.ui.components
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -10,10 +9,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListScope
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
-import androidx.compose.material3.Button
 import androidx.compose.material3.CircularProgressIndicator
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.derivedStateOf
@@ -21,9 +17,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import com.haidershah.pokedex.R
 
 @Composable
 fun <T> InfiniteLazyColumn(
@@ -31,7 +25,8 @@ fun <T> InfiniteLazyColumn(
     header: LazyListScope.() -> Unit = {},
     items: List<T>,
     itemContent: @Composable (T) -> Unit,
-    endOfListContent: @Composable () -> Unit = {},
+    endOfListContent: (@Composable () -> Unit)? = null,
+    errorContent: (@Composable () -> Unit)? = null,
     loadState: LoadState,
     loadData: () -> Unit,
     loadMoreThreshold: Int = 3
@@ -80,26 +75,18 @@ fun <T> InfiniteLazyColumn(
             }
 
             LoadState.Error -> {
-                item {
-                    Column(
-                        modifier = Modifier.fillMaxWidth(),
-                        horizontalAlignment = Alignment.CenterHorizontally,
-                    ) {
-                        Text(
-                            text = stringResource(R.string.error_data_load)
-                        )
-                        Button(onClick = { loadData() }) {
-                            Text(
-                                text = stringResource(R.string.retry)
-                            )
-                        }
+                errorContent?.let {
+                    item {
+                        it()
                     }
                 }
             }
 
             LoadState.EndReached -> {
-                item {
-                    endOfListContent()
+                endOfListContent?.let {
+                    item {
+                        it()
+                    }
                 }
             }
         }

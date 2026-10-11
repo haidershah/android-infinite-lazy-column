@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Icon
@@ -60,6 +61,7 @@ fun PokemonContent(
         items = pokemons,
         itemContent = { pokemon -> PokemonRow(pokemon) },
         endOfListContent = { EndOfListContent() },
+        errorContent = { ErrorContent(loadData) },
         loadState = loadState,
         loadData = loadData
     )
@@ -133,5 +135,22 @@ fun EndOfListContent() {
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Text(text = stringResource(R.string.end_of_list))
+    }
+}
+
+@Composable
+fun ErrorContent(onRetry: () -> Unit) {
+    Column(
+        modifier = Modifier.fillMaxWidth(),
+        horizontalAlignment = Alignment.CenterHorizontally,
+    ) {
+        Text(
+            text = stringResource(R.string.error_data_load)
+        )
+        Button(onClick = onRetry) {
+            Text(
+                text = stringResource(R.string.retry)
+            )
+        }
     }
 }
