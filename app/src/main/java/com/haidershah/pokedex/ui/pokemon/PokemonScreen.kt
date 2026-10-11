@@ -1,5 +1,6 @@
 package com.haidershah.pokedex.ui.pokemon
 
+import android.content.res.Configuration
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.slideInVertically
 import androidx.compose.animation.slideOutVertically
@@ -18,6 +19,7 @@ import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -220,12 +222,15 @@ private val previewPokemons = listOf(
 @Composable
 private fun PokemonContentPreview(loadState: LoadState) {
     PokedexTheme {
-        PokemonContent(
-            numLoadedPokemons = previewPokemons.size,
-            pokemons = previewPokemons,
-            loadState = loadState,
-            loadData = {}
-        )
+        // draws the theme's background color, so the dark preview isn't white
+        Surface {
+            PokemonContent(
+                numLoadedPokemons = previewPokemons.size,
+                pokemons = previewPokemons,
+                loadState = loadState,
+                loadData = {}
+            )
+        }
     }
 }
 
@@ -245,3 +250,13 @@ private fun PokemonContentErrorPreview() = PokemonContentPreview(loadState = Loa
 @Composable
 private fun PokemonContentEndReachedPreview() =
     PokemonContentPreview(loadState = LoadState.EndReached)
+
+// Large font
+@Preview(showBackground = true, fontScale = 2f)
+@Composable
+private fun PokemonContentLargeFontPreview() = PokemonContentPreview(loadState = LoadState.Idle)
+
+// Dark mode
+@Preview(showBackground = true, uiMode = Configuration.UI_MODE_NIGHT_YES)
+@Composable
+private fun PokemonContentDarkPreview() = PokemonContentPreview(loadState = LoadState.Idle)
