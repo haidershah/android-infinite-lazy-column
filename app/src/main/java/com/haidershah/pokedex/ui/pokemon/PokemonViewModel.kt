@@ -20,7 +20,7 @@ class PokemonViewModel : ViewModel() {
 
     private var nextUrl: String? = ""
 
-    private val _uiState = MutableStateFlow(UiState(loadState = LoadState.Idle))
+    private val _uiState = MutableStateFlow(PokemonUiState(loadState = LoadState.Idle))
     val uiState = _uiState.asStateFlow()
 
     init {
