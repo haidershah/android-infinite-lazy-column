@@ -41,7 +41,7 @@ A Kotlin / Jetpack Compose app that displays Pokémon from [PokéAPI](https://po
 - [x] Loaded-count header stays pinned (`stickyHeader`) while the title scrolls away
 - [x] Display total number of Pokémon currently loaded
 - [x] Seamless loading while scrolling
-- [ ] `@Preview` for the stateless `PokemonContent` (loading, loaded, error, end-of-list states)
+- [x] `@Preview` for the stateless `PokemonContent` (loading, loaded, error, end-of-list states)
 
 ### 6. Animations
 - [x] Animate newly loaded rows as they appear (fade in, as in the example video)

@@ -31,6 +31,7 @@ import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.liveRegion
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -38,6 +39,7 @@ import com.haidershah.pokedex.R
 import com.haidershah.pokedex.data.remote.Pokemon
 import com.haidershah.pokedex.ui.components.InfiniteLazyColumn
 import com.haidershah.pokedex.ui.components.LoadState
+import com.haidershah.pokedex.ui.theme.PokedexTheme
 import java.nio.file.WatchEvent
 
 @Composable
@@ -208,3 +210,38 @@ fun PokemonLoadingContent() {
         })
     }
 }
+
+private val previewPokemons = listOf(
+    Pokemon("Bulbasaur", "1"),
+    Pokemon("Ivysaur", "2"),
+    Pokemon("Venusaur", "3")
+)
+
+@Composable
+private fun PokemonContentPreview(loadState: LoadState) {
+    PokedexTheme {
+        PokemonContent(
+            numLoadedPokemons = previewPokemons.size,
+            pokemons = previewPokemons,
+            loadState = loadState,
+            loadData = {}
+        )
+    }
+}
+
+@Preview(showBackground = true)
+@Composable
+private fun PokemonContentLoadedPreview() = PokemonContentPreview(loadState = LoadState.Idle)
+
+@Preview(showBackground = true)
+@Composable
+private fun PokemonContentLoadingPreview() = PokemonContentPreview(loadState = LoadState.Loading)
+
+@Preview(showBackground = true)
+@Composable
+private fun PokemonContentErrorPreview() = PokemonContentPreview(loadState = LoadState.Error)
+
+@Preview(showBackground = true)
+@Composable
+private fun PokemonContentEndReachedPreview() =
+    PokemonContentPreview(loadState = LoadState.EndReached)
