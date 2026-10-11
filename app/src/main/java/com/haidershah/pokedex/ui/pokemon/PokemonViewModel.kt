@@ -3,6 +3,7 @@ package com.haidershah.pokedex.ui.pokemon
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.google.gson.JsonSyntaxException
 import com.haidershah.pokedex.data.repository.PokemonRepository
 import com.haidershah.pokedex.ui.components.LoadState
 import kotlinx.coroutines.delay
@@ -70,10 +71,13 @@ class PokemonViewModel : ViewModel() {
                     onFetchError(e)
                 } catch (e: HttpException) {
                     onFetchError(e)
+                } catch (e: JsonSyntaxException) {
+                    onFetchError(e)
                 }
             }
         } ?: run { // user has reached end of screen
             // todo nextUrl == null reached end of list. let user know.
+//            this is next
         }
     }
 

@@ -14,7 +14,7 @@ A Kotlin / Jetpack Compose app that displays Pokémon from [PokéAPI](https://po
 - [x] Create API service for `https://pokeapi.co/api/v2/pokemon?limit=10&offset=0`
 - [x] Page size back to `limit=10` per the prompt
 - [x] Load subsequent pages using the `next` URL (Retrofit `@Url`)
-- [ ] Handle failures gracefully (no connectivity, HTTP errors, malformed responses) — catch in ViewModel, store in UI state
+- [x] Handle failures gracefully (no connectivity, HTTP errors, malformed responses) — catch in ViewModel, store in UI state
 
 ### 2. Repository & caching
 - [x] Repository layer between network and ViewModel
@@ -28,12 +28,12 @@ A Kotlin / Jetpack Compose app that displays Pokémon from [PokéAPI](https://po
 - [x] Prevent duplicate requests while a load is in progress (`LoadState.Loading` guard)
 - [x] Handle end of list (`next == null`) — stop requesting
 - [ ] Initial load fills the screen (example video starts at 20 = two pages)
-- [ ] Retry after error
+- [x] Retry after error
 
 ### 4. `InfiniteLazyColumn` component
 - [x] Generic over item type (no Pokémon knowledge)
 - [x] Triggers load-more when the user nears the end of the list (prefetch threshold, so the user never hits the end)
-- [ ] Loading, success, and error states
+- [x] Loading, success, and error states
 - [ ] Customizable item, loading, and error content
 
 ### 5. Pokémon list screen
@@ -63,7 +63,7 @@ A Kotlin / Jetpack Compose app that displays Pokémon from [PokéAPI](https://po
 
 ### 9. Cleanup
 - [x] Remove unused imports (`colorResource`, `Log`)
-- [ ] Remove `// todo remove` test code in `PokemonViewModel` (artificial `delay`, forced `Error` on `offset=10`)
+- [ ] Remove `// todo remove` test code in `PokemonViewModel` (artificial `delay`)
 - [ ] Rename `UiState` → `PokemonUiState`
 - [ ] Inject repository via ViewModel constructor (needed for tests)
 - [ ] Declare `lifecycle-runtime-compose` explicitly (currently transitive)
