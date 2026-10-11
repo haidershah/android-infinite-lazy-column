@@ -62,6 +62,7 @@ fun PokemonContent(
             stickyHeader { LoadedPokemonCount(numLoadedPokemons) }
         },
         items = pokemons,
+        itemKey = { pokemon -> pokemon.url },
         itemContent = { pokemon -> PokemonRow(pokemon) },
         endOfListContent = { EndOfListContent() },
         errorContent = { ErrorContent(loadData) },

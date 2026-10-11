@@ -24,6 +24,7 @@ fun <T> InfiniteLazyColumn(
     modifier: Modifier = Modifier,
     header: LazyListScope.() -> Unit = {},
     items: List<T>,
+    itemKey: ((T) -> Any)? = null,
     itemContent: @Composable (T) -> Unit,
     loadingContent: @Composable () -> Unit = { DefaultLoadingContent() },
     endOfListContent: (@Composable () -> Unit)? = null,
@@ -57,8 +58,10 @@ fun <T> InfiniteLazyColumn(
     ) {
         header()
 
-        items(items = items) {
-            itemContent(it)
+        items(items = items, key = itemKey) {
+            Box(modifier = Modifier.animateItem()) {
+                itemContent(it)
+            }
         }
 
         when (loadState) {
