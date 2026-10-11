@@ -48,13 +48,13 @@ A Kotlin / Jetpack Compose app that displays Pokémon from [PokéAPI](https://po
 - [x] Animate the loaded count when it changes (as in the example video)
 - [x] Animated loading indicator / footer (e.g. shimmer or skeleton) — required by the prompt, not clearly visible in the video
 - [x] Keep animations smooth as the list grows
-- [ ] Respect reduced-motion settings
+- [x] Respect reduced-motion settings
 
 ### 7. Accessibility
 - [x] TalkBack support (semantics, content descriptions)
 - [x] Announce newly loaded content / loading and error states
 - [x] Support dynamic font sizes and layouts
-- [ ] Reduced motion considerations
+- [x] Reduced motion considerations
 
 ### 8. Unit tests
 - [x] Repository tests (first-page URL, next-page URL)
