@@ -45,7 +45,7 @@ A Kotlin / Jetpack Compose app that displays Pokémon from [PokéAPI](https://po
 
 ### 6. Animations
 - [ ] Animate newly loaded rows as they appear (fade in, as in the example video)
-- [ ] Animate the loaded count when it changes (as in the example video)
+- [x] Animate the loaded count when it changes (as in the example video)
 - [ ] Animated loading indicator / footer (e.g. shimmer or skeleton) — required by the prompt, not clearly visible in the video
 - [ ] Keep animations smooth as the list grows
 - [ ] Respect reduced-motion settings

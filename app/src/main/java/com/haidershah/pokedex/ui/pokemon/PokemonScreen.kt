@@ -1,5 +1,9 @@
 package com.haidershah.pokedex.ui.pokemon
 
+import androidx.compose.animation.AnimatedContent
+import androidx.compose.animation.slideInVertically
+import androidx.compose.animation.slideOutVertically
+import androidx.compose.animation.togetherWith
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -94,11 +98,20 @@ fun LoadedPokemonCount(numLoadedPokemons: Int) {
             style = MaterialTheme.typography.bodyMedium,
             color = MaterialTheme.colorScheme.outline,
         )
-        Text(
-            text = numLoadedPokemons.toString(),
-            style = MaterialTheme.typography.displayMedium,
-            fontWeight = FontWeight.Bold
-        )
+        AnimatedContent(
+            targetState = numLoadedPokemons,
+            transitionSpec = {
+                // new number should start one height below
+                slideInVertically { height -> height } togetherWith
+                        // old number should end one height above
+                        slideOutVertically { height -> -height }
+            }) { count ->
+            Text(
+                text = count.toString(),
+                style = MaterialTheme.typography.displayMedium,
+                fontWeight = FontWeight.Bold
+            )
+        }
     }
 }
 
