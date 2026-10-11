@@ -49,6 +49,29 @@ class PokemonViewModelTest {
         assertEquals(LoadState.Idle, viewModel.uiState.value.loadState)
     }
 
+    @Test
+    fun initialLoad_lastPage_setsEndReached() {
+        val pokemons = List(10) { Pokemon(name = "pokemon_$it", url = "url_$it") }
+        val response =
+            PokemonResponse(
+                count = pokemons.size,
+                next = null,
+                previous = null,
+                results = pokemons
+            )
+        val api = FakePokemonApi(response)
+        val repository = PokemonRepository(api)
+
+        val viewModel = PokemonViewModel(repository)
+
+        // runs the ViewModel's pending coroutine, without actually waiting
+        testDispatcher.scheduler.advanceUntilIdle()
+
+        assertEquals(pokemons.size, viewModel.uiState.value.pokemons.size)
+        assertEquals(pokemons.size, viewModel.uiState.value.count)
+        assertEquals(LoadState.EndReached, viewModel.uiState.value.loadState)
+    }
+
     @After
     fun tearDown() {
         Dispatchers.resetMain()
