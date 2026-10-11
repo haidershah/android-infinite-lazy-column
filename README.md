@@ -7,7 +7,7 @@ A Kotlin / Jetpack Compose app that displays Pokémon from [PokéAPI](https://po
 ### 0. Project setup
 - [x] Create Compose project (`com.haidershah.pokedex`, minSdk 24)
 - [x] Initialize git and push to GitHub
-- [ ] Add dependencies (networking, serialization, lifecycle/ViewModel, testing)
+- [x] Add dependencies (networking, serialization, lifecycle/ViewModel, testing)
 
 ### 1. Networking
 - [x] Model the paginated API response (`count`, `next`, `previous`, `results`)
@@ -27,7 +27,7 @@ A Kotlin / Jetpack Compose app that displays Pokémon from [PokéAPI](https://po
 - [x] ViewModel exposes state and a load action that appends to the list
 - [x] Prevent duplicate requests while a load is in progress (`LoadState.Loading` guard)
 - [x] Handle end of list (`next == null`) — stop requesting
-- [ ] Initial load fills the screen (example video starts at 20 = two pages)
+- [x] Initial load fills the screen (example video starts at 20 = two pages)
 - [x] Retry after error
 
 ### 4. `InfiniteLazyColumn` component
@@ -40,14 +40,14 @@ A Kotlin / Jetpack Compose app that displays Pokémon from [PokéAPI](https://po
 - [x] Display Pokémon names
 - [x] Loaded-count header stays pinned (`stickyHeader`) while the title scrolls away
 - [x] Display total number of Pokémon currently loaded
-- [ ] Seamless loading while scrolling
+- [x] Seamless loading while scrolling
 - [ ] `@Preview` for the stateless `PokemonContent` (loading, loaded, error, end-of-list states)
 
 ### 6. Animations
-- [ ] Animate newly loaded rows as they appear (fade in, as in the example video)
+- [x] Animate newly loaded rows as they appear (fade in, as in the example video)
 - [x] Animate the loaded count when it changes (as in the example video)
-- [ ] Animated loading indicator / footer (e.g. shimmer or skeleton) — required by the prompt, not clearly visible in the video
-- [ ] Keep animations smooth as the list grows
+- [x] Animated loading indicator / footer (e.g. shimmer or skeleton) — required by the prompt, not clearly visible in the video
+- [x] Keep animations smooth as the list grows
 - [ ] Respect reduced-motion settings
 
 ### 7. Accessibility
@@ -63,7 +63,7 @@ A Kotlin / Jetpack Compose app that displays Pokémon from [PokéAPI](https://po
 
 ### 9. Cleanup
 - [x] Remove unused imports (`colorResource`, `Log`)
-- [ ] Remove `// todo remove` test code in `PokemonViewModel` (artificial `delay`)
+- [x] Remove `// todo remove` test code in `PokemonViewModel` (artificial `delay`)
 - [x] Rename `UiState` → `PokemonUiState`
 - [x] Inject repository via ViewModel constructor (needed for tests)
 - [ ] Declare `lifecycle-runtime-compose` explicitly (currently transitive)

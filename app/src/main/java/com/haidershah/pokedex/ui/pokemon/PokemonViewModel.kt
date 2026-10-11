@@ -10,14 +10,12 @@ import com.google.gson.JsonSyntaxException
 import com.haidershah.pokedex.PokedexApplication
 import com.haidershah.pokedex.data.repository.PokemonRepository
 import com.haidershah.pokedex.ui.components.LoadState
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import retrofit2.HttpException
 import java.io.IOException
-import kotlin.time.Duration.Companion.milliseconds
 
 class PokemonViewModel(private val repository: PokemonRepository) : ViewModel() {
 
@@ -51,9 +49,6 @@ class PokemonViewModel(private val repository: PokemonRepository) : ViewModel() 
         }
 
         viewModelScope.launch {
-            // todo remove
-            delay(2_000.milliseconds)
-
             try {
                 Log.d(TAG, "Fetch Pokemons with url <$url>...")
                 val response = repository.getPokemons(url)
