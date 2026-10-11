@@ -31,6 +31,7 @@ fun <T> InfiniteLazyColumn(
     header: LazyListScope.() -> Unit = {},
     items: List<T>,
     itemContent: @Composable (T) -> Unit,
+    endOfListContent: @Composable () -> Unit = {},
     loadState: LoadState,
     loadData: () -> Unit,
     loadMoreThreshold: Int = 3
@@ -96,7 +97,11 @@ fun <T> InfiniteLazyColumn(
                 }
             }
 
-            LoadState.EndReached -> {}
+            LoadState.EndReached -> {
+                item {
+                    endOfListContent()
+                }
+            }
         }
     }
 }

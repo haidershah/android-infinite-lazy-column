@@ -34,50 +34,56 @@ class PokemonViewModel : ViewModel() {
             return
         }
 
-        nextUrl?.let { // nextUrl is not null, fetch data
-            _uiState.update { currentUiState ->
-                currentUiState.copy(loadState = LoadState.Loading)
-            }
+        val url = nextUrl
 
-            viewModelScope.launch {
-                // todo remove
-                delay(2_000.milliseconds)
+        // user is already at the end of the list
+        if (url == null) {
+            Log.d(TAG, "End of list already reached")
+            return
+        }
 
-                try {
-                    Log.d(TAG, "Fetch Pokemons with url <$it>...")
-                    val response = repository.getPokemons(it)
-                    Log.d(TAG, "Response: $response")
+        // nextUrl is not null, fetch data
+        _uiState.update { currentUiState ->
+            currentUiState.copy(loadState = LoadState.Loading)
+        }
 
-                    // store nextUrl
-                    nextUrl = response.next
+        viewModelScope.launch {
+            // todo remove
+            delay(2_000.milliseconds)
 
-                    // change the first character of name to uppercase
-                    val newPokemons = response.results.map { pokemon ->
-                        pokemon.copy(name = pokemon.name.replaceFirstChar { firstCharacter ->
-                            firstCharacter.uppercase()
-                        })
-                    }
+            try {
+                Log.d(TAG, "Fetch Pokemons with url <$url>...")
+                val response = repository.getPokemons(url)
+                Log.d(TAG, "Response: $response")
 
-                    _uiState.update { currentUiState ->
-                        val pokemons = currentUiState.pokemons + newPokemons
+                // store nextUrl
+                nextUrl = response.next
 
-                        currentUiState.copy(
-                            loadState = LoadState.Idle,
-                            count = pokemons.size,
-                            pokemons = pokemons
-                        )
-                    }
-                } catch (e: IOException) {
-                    onFetchError(e)
-                } catch (e: HttpException) {
-                    onFetchError(e)
-                } catch (e: JsonSyntaxException) {
-                    onFetchError(e)
+                // change the first character of name to uppercase
+                val newPokemons = response.results.map { pokemon ->
+                    pokemon.copy(name = pokemon.name.replaceFirstChar { firstCharacter ->
+                        firstCharacter.uppercase()
+                    })
                 }
+
+                _uiState.update { currentUiState ->
+                    val pokemons = currentUiState.pokemons + newPokemons
+                    val loadState =
+                        if (response.next == null) LoadState.EndReached else LoadState.Idle
+
+                    currentUiState.copy(
+                        loadState = loadState,
+                        count = pokemons.size,
+                        pokemons = pokemons
+                    )
+                }
+            } catch (e: IOException) {
+                onFetchError(e)
+            } catch (e: HttpException) {
+                onFetchError(e)
+            } catch (e: JsonSyntaxException) {
+                onFetchError(e)
             }
-        } ?: run { // user has reached end of screen
-            // todo nextUrl == null reached end of list. let user know.
-//            this is next
         }
     }
 

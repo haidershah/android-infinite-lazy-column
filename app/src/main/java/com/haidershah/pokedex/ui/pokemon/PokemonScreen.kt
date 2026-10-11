@@ -59,6 +59,7 @@ fun PokemonContent(
         },
         items = pokemons,
         itemContent = { pokemon -> PokemonRow(pokemon) },
+        endOfListContent = { EndOfListContent() },
         loadState = loadState,
         loadData = loadData
     )
@@ -120,5 +121,17 @@ fun PokemonRow(pokemon: Pokemon) {
                 fontWeight = FontWeight.SemiBold
             )
         }
+    }
+}
+
+@Composable
+fun EndOfListContent() {
+    Column(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(bottom = 16.dp),
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+        Text(text = stringResource(R.string.end_of_list))
     }
 }
