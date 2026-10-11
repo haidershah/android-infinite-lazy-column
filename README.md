@@ -19,7 +19,7 @@ A Kotlin / Jetpack Compose app that displays Pokémon from [PokéAPI](https://po
 ### 2. Repository & caching
 - [x] Repository layer between network and ViewModel
 - [x] Implement caching strategy
-- [ ] Document what is cached, why, and tradeoffs
+- [x] Document what is cached, why, and tradeoffs
 
 ### 3. State management
 - [x] Define UI state: items + sealed `LoadState` (`Idle`, `Loading`, `Error`, `EndReached`)
@@ -93,7 +93,11 @@ _TODO_
 
 ## Caching Strategy
 
-_TODO_
+- **What is cached:** each page of Pokémon returned by the server, saved on the phone in the app's private cache folder (up to 10 MB).
+- **How:** OkHttp's built-in response cache, set up in `PokedexApplication.kt` and passed to Retrofit. The repository and ViewModel don't know about it.
+- **How long:** the server says each response stays fresh for 24 hours. Within that time, pages load from the phone with no network call, even offline. After that, the app checks with the server whether the data changed.
+
+For why this approach was chosen over the alternatives, see [Tradeoffs](#http-response-caching-vs-in-memory-vs-persistent-storage).
 
 ## Accessibility
 
