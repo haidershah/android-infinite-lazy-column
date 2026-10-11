@@ -88,6 +88,45 @@ class PokemonViewModelTest {
         assertEquals(LoadState.Error, viewModel.uiState.value.loadState)
     }
 
+    @Test
+    fun retry_afterError_loadsPage() {
+        val pokemons = List(10) { Pokemon(name = "pokemon_$it", url = "url_$it") }
+        val response =
+            PokemonResponse(
+                count = pokemons.size,
+                next = "url",
+                previous = null,
+                results = pokemons
+            )
+
+        var calls = 0
+
+        val api = FakePokemonApi {
+            if (calls++ == 0) {
+                throw IOException()
+            } else {
+                response
+            }
+        }
+
+        val repository = PokemonRepository(api)
+
+        val viewModel = PokemonViewModel(repository)
+
+        // runs the ViewModel's pending coroutine, without actually waiting
+        testDispatcher.scheduler.advanceUntilIdle()
+
+        assertEquals(LoadState.Error, viewModel.uiState.value.loadState)
+
+        viewModel.getPokemons()
+
+        testDispatcher.scheduler.advanceUntilIdle()
+
+        assertEquals(pokemons.size, viewModel.uiState.value.pokemons.size)
+        assertEquals(pokemons.size, viewModel.uiState.value.count)
+        assertEquals(LoadState.Idle, viewModel.uiState.value.loadState)
+    }
+
     @After
     fun tearDown() {
         Dispatchers.resetMain()
