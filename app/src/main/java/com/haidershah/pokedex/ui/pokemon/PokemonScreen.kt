@@ -29,7 +29,10 @@ import com.haidershah.pokedex.ui.components.InfiniteLazyColumn
 import com.haidershah.pokedex.ui.components.LoadState
 
 @Composable
-fun PokemonScreen(modifier: Modifier = Modifier, viewModel: PokemonViewModel = viewModel()) {
+fun PokemonScreen(
+    modifier: Modifier = Modifier,
+    viewModel: PokemonViewModel = viewModel(factory = PokemonViewModel.Factory)
+) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 
     val numLoadedPokemons = uiState.count

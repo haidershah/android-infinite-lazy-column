@@ -2,8 +2,12 @@ package com.haidershah.pokedex.ui.pokemon
 
 import android.util.Log
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProvider.AndroidViewModelFactory.Companion.APPLICATION_KEY
 import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.viewmodel.initializer
+import androidx.lifecycle.viewmodel.viewModelFactory
 import com.google.gson.JsonSyntaxException
+import com.haidershah.pokedex.PokedexApplication
 import com.haidershah.pokedex.data.repository.PokemonRepository
 import com.haidershah.pokedex.ui.components.LoadState
 import kotlinx.coroutines.delay
@@ -15,8 +19,7 @@ import retrofit2.HttpException
 import java.io.IOException
 import kotlin.time.Duration.Companion.milliseconds
 
-class PokemonViewModel : ViewModel() {
-    private val repository = PokemonRepository
+class PokemonViewModel(private val repository: PokemonRepository) : ViewModel() {
 
     private var nextUrl: String? = ""
 
@@ -96,5 +99,12 @@ class PokemonViewModel : ViewModel() {
 
     companion object {
         private const val TAG = "PokemonViewModel"
+
+        val Factory = viewModelFactory {
+            initializer {
+                val app = this[APPLICATION_KEY] as PokedexApplication
+                PokemonViewModel(app.repository)
+            }
+        }
     }
 }

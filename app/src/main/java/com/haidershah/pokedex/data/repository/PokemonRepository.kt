@@ -2,15 +2,8 @@ package com.haidershah.pokedex.data.repository
 
 import com.haidershah.pokedex.data.remote.PokemonApi
 import com.haidershah.pokedex.data.remote.PokemonResponse
-import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
 
-object PokemonRepository {
-    private val api = Retrofit.Builder()
-        .baseUrl("https://pokeapi.co/api/v2/")
-        .addConverterFactory(GsonConverterFactory.create())
-        .build()
-        .create(PokemonApi::class.java)
+class PokemonRepository(private val api: PokemonApi) {
 
     suspend fun getPokemons(url: String): PokemonResponse {
         // load first page if url parameter is empty
@@ -21,5 +14,7 @@ object PokemonRepository {
         }
     }
 
-    private const val FIRST_PAGE_URL = "pokemon?limit=10&offset=0"
+    companion object {
+        private const val FIRST_PAGE_URL = "pokemon?limit=10&offset=0"
+    }
 }
