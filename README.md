@@ -58,7 +58,7 @@ A Kotlin / Jetpack Compose app that displays Pokémon from [PokéAPI](https://po
 
 ### 8. Unit tests
 - [ ] Repository tests (pagination, caching, error handling)
-- [ ] ViewModel tests (state transitions, duplicate request prevention, retry)
+- [x] ViewModel tests (state transitions, duplicate request prevention, retry)
 - [ ] `InfiniteLazyColumn` load-more trigger logic
 
 ### 9. Cleanup

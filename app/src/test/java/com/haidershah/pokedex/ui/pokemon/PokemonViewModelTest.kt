@@ -103,6 +103,33 @@ class PokemonViewModelTest {
         assertEquals(1, numApiRequests)
     }
 
+    @Test
+    fun getPokemons_nextPage_appendsToList() {
+        val page2Url = "page2"
+        val requestedUrls = mutableListOf<String>()
+        val viewModel = createViewModel(
+            FakePokemonApi { url ->
+                requestedUrls.add(url)
+                pageResponse(next = page2Url)
+            }
+        )
+
+        runPendingCoroutines()
+
+        var uiState = viewModel.uiState.value
+        assertEquals(PAGE_SIZE, uiState.pokemons.size)
+        assertEquals(PAGE_SIZE, uiState.count)
+        assertEquals(LoadState.Idle, uiState.loadState)
+
+        viewModel.getPokemons()
+        runPendingCoroutines()
+
+        uiState = viewModel.uiState.value
+        assertEquals(PAGE_SIZE * 2, uiState.count)
+        assertEquals(PAGE_SIZE * 2, uiState.pokemons.size)
+        assertEquals(page2Url, requestedUrls[1])
+    }
+
     @After
     fun tearDown() {
         Dispatchers.resetMain()
