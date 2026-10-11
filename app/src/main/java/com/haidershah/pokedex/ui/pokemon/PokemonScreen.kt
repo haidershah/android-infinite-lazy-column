@@ -24,8 +24,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.LiveRegionMode
+import androidx.compose.ui.semantics.clearAndSetSemantics
+import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.liveRegion
-import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
@@ -89,13 +90,22 @@ fun PokemonTitle() {
 
 @Composable
 fun LoadedPokemonCount(numLoadedPokemons: Int) {
+    val loadedCountDescription = stringResource(
+        R.string.loaded_pokemon_count,
+        stringResource(R.string.loaded_pokemon),
+        numLoadedPokemons
+    )
+
     Column(
         modifier = Modifier
             .fillMaxWidth()
             .background(color = MaterialTheme.colorScheme.background)
             .padding(bottom = 8.dp)
             // TalkBack reads "Loaded Pokémon, 30" as one item and announces it when the count changes
-            .semantics(mergeDescendants = true) { liveRegion = LiveRegionMode.Polite },
+            .clearAndSetSemantics {
+                contentDescription = loadedCountDescription
+                liveRegion = LiveRegionMode.Polite
+            },
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Text(
