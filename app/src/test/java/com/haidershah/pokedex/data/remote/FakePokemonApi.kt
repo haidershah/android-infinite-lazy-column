@@ -1,8 +1,8 @@
 package com.haidershah.pokedex.data.remote
 
-class FakePokemonApi(private val response: PokemonResponse) : PokemonApi {
+class FakePokemonApi(private val onGetPokemons: suspend (url: String) -> PokemonResponse) : PokemonApi {
 
     override suspend fun getPokemons(url: String): PokemonResponse {
-        return response
+        return onGetPokemons(url)
     }
 }

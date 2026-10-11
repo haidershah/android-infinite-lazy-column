@@ -10,6 +10,7 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.StandardTestDispatcher
 import kotlinx.coroutines.test.resetMain
 import kotlinx.coroutines.test.setMain
+import okio.IOException
 import org.junit.After
 import org.junit.Assert.assertEquals
 import org.junit.Before
@@ -36,7 +37,7 @@ class PokemonViewModelTest {
                 previous = null,
                 results = pokemons
             )
-        val api = FakePokemonApi(response)
+        val api = FakePokemonApi { response }
         val repository = PokemonRepository(api)
 
         val viewModel = PokemonViewModel(repository)
@@ -59,7 +60,7 @@ class PokemonViewModelTest {
                 previous = null,
                 results = pokemons
             )
-        val api = FakePokemonApi(response)
+        val api = FakePokemonApi { response }
         val repository = PokemonRepository(api)
 
         val viewModel = PokemonViewModel(repository)
@@ -70,6 +71,21 @@ class PokemonViewModelTest {
         assertEquals(pokemons.size, viewModel.uiState.value.pokemons.size)
         assertEquals(pokemons.size, viewModel.uiState.value.count)
         assertEquals(LoadState.EndReached, viewModel.uiState.value.loadState)
+    }
+
+    @Test
+    fun initialLoad_networkError_setsError() {
+        val api = FakePokemonApi { throw IOException() }
+        val repository = PokemonRepository(api)
+
+        val viewModel = PokemonViewModel(repository)
+
+        // runs the ViewModel's pending coroutine, without actually waiting
+        testDispatcher.scheduler.advanceUntilIdle()
+
+        assertEquals(0, viewModel.uiState.value.pokemons.size)
+        assertEquals(0, viewModel.uiState.value.count)
+        assertEquals(LoadState.Error, viewModel.uiState.value.loadState)
     }
 
     @After
