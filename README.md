@@ -68,13 +68,13 @@ A Kotlin / Jetpack Compose app that displays Pokémon from [PokéAPI](https://po
 - [x] Inject repository via ViewModel constructor (needed for tests)
 - [x] Declare `lifecycle-runtime-compose` explicitly (currently transitive)
 - [x] Add test dependencies (`kotlinx-coroutines-test`)
-- [ ] Remove all remaining `todo` comments before submitting
+- [x] Remove all remaining `todo` comments before submitting
 
 ### 10. Documentation
 - [x] Build instructions
 - [x] Architecture overview
 - [x] Key design decisions
-- [ ] Tradeoffs made
+- [x] Tradeoffs made
 - [ ] Future improvements
 
 ---
@@ -193,6 +193,38 @@ The server already says how long the data stays fresh and how to check whether i
 - **DataStore:** built for small key-value data like settings. Every write rewrites the whole file, which is a poor fit for a list that grows with each page.
 
 **Cost of this choice:** once the saved copy expires, the app needs a connection to check with the server, so expired data isn't shown offline. Showing it offline would take extra code. The caching also depends on the server's headers; if the server changed them, the caching would change too.
+
+### Spinner vs. skeleton rows for loading
+
+The loading indicator is a spinner at the bottom of the list.
+
+**Why:** the next page loads before the user reaches the end, so the spinner is rarely on screen for long. A skeleton (grey placeholder rows that shimmer) looks more polished, but it's more code for something the user barely sees.
+
+**Cost of this choice:** on a slow network, a skeleton would give a better sense of what's coming than a spinner does.
+
+### Animating only the rows that are on screen
+
+New rows use `animateItem()`, which fades in rows that are visible when they're added.
+
+**Why:** it's one line, built into Compose, and it handles adding, removing and moving rows.
+
+**Cost of this choice:** because pages load early, most new rows are added below the screen and simply appear without fading in. Fading in every row as it first scrolls into view would need extra code to remember which rows have already been shown (see [Future Improvements](#future-improvements)).
+
+### Rolling the whole count vs. each digit
+
+The loaded count uses `AnimatedContent` to slide the new number in from below and the old one out the top.
+
+**Why:** it's simple and easy to read. Rolling each digit on its own (like an odometer, where only the changed digit moves) needs a separate animation per digit and extra handling when the number gets longer, for example 90 → 100.
+
+**Cost of this choice:** when the count goes from 20 to 30, the whole number moves, not just the `2`.
+
+### Announcing "Loading" to TalkBack
+
+The spinner is a live region, so TalkBack says "Loading" whenever it appears, and the count is also a live region, so TalkBack says the new count when a page arrives.
+
+**Why:** a TalkBack user can't see the list grow, so hearing that more Pokémon are loading and how many are loaded tells them what's happening.
+
+**Cost of this choice:** pages load often, so TalkBack talks a lot while scrolling. Making the spinner speak only when focused would be quieter. Also, the new count is currently read twice per page; the cause wasn't found.
 
 ## Future Improvements
 
