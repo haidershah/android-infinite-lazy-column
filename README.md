@@ -71,9 +71,9 @@ A Kotlin / Jetpack Compose app that displays Pokémon from [PokéAPI](https://po
 - [ ] Remove all remaining `todo` comments before submitting
 
 ### 10. Documentation
-- [ ] Build instructions
-- [ ] Architecture overview
-- [ ] Key design decisions
+- [x] Build instructions
+- [x] Architecture overview
+- [x] Key design decisions
 - [ ] Tradeoffs made
 - [ ] Future improvements
 
@@ -81,15 +81,46 @@ A Kotlin / Jetpack Compose app that displays Pokémon from [PokéAPI](https://po
 
 ## Build Instructions
 
-_TODO_
+1. Clone the repo:
+   ```sh
+   git clone https://github.com/haidershah/android-infinite-lazy-column.git
+   ```
+2. Open the project in the latest stable Android Studio and let Gradle sync.
+3. Run the `app` configuration on an emulator or device (Android 7.0 / API 24 or newer). The first load needs an internet connection.
+
+To run the unit tests:
+
+```sh
+./gradlew testDebugUnitTest
+```
 
 ## Architecture Overview
 
-_TODO_
+The app follows the MVVM pattern: the UI shows state and sends events, the ViewModel owns the state, and the repository fetches data.
+
+```
+PokemonActivity
+  └─ PokemonScreen              (Compose UI)
+       └─ InfiniteLazyColumn    (generic list component)
+  PokemonViewModel              (holds PokemonUiState)
+  └─ PokemonRepository          (decides which URL to load)
+       └─ PokemonApi            (Retrofit)
+            └─ OkHttp + cache   (network and response caching)
+```
+
+- **`ui/components`:** `InfiniteLazyColumn` and `LoadState`. Nothing here knows about Pokémon.
+- **`ui/pokemon`:** `PokemonScreen`, `PokemonViewModel` and `PokemonUiState`.
+- **`data`:** `PokemonApi`, the response models and `PokemonRepository`.
+- **`PokedexApplication`:** builds OkHttp, Retrofit and the repository once, and the ViewModel gets the repository through its constructor.
 
 ## Key Design Decisions
 
 - **`InfiniteLazyColumn` instead of `InfiniteScrollView`:** the prompt names the component `InfiniteScrollView`. It's named `InfiniteLazyColumn` here because it wraps a `LazyColumn` and follows Compose naming (`LazyColumn`, `LazyRow`), whereas "ScrollView" is a View-system term.
+- **The component is generic:** `InfiniteLazyColumn<T>` takes the items, the current `LoadState` and a `loadData` function. The screen passes in how to draw each item, the error UI and the end-of-list message, so the component has no Pokémon code or text of its own. Loading falls back to a spinner if the caller doesn't provide one.
+- **Load before the user reaches the end:** the next page is requested when the user is within 3 items of the end (`loadMoreThreshold`), so scrolling doesn't stall.
+- **One `LoadState` for the list:** `Idle`, `Loading`, `Error` or `EndReached`. The component uses it to decide what to show at the bottom, and the ViewModel uses it to ignore a new request while one is already loading.
+- **Follow the server's `next` URL:** each response says where the next page is, so the app uses that instead of calculating offsets itself. When `next` is `null`, the list is finished.
+- **Fakes instead of mocks in tests:** `PokemonApi` is a small interface, so tests use a `FakePokemonApi` that runs whatever the test gives it. No mocking library is needed.
 
 ## Caching Strategy
 
@@ -165,5 +196,6 @@ The server already says how long the data stays fresh and how to check whether i
 
 ## Future Improvements
 
-- Dependency injection framework (e.g. Hilt): the app currently uses manual DI — constructor injection (`PokemonRepository(api)`, `PokemonViewModel(repository)`), a single `AppContainer` that builds Retrofit and the repository, and a `viewModelFactory` to construct the ViewModel. A framework is overkill for one screen, but would replace the container and factory as the app grows
+- Dependency injection framework (e.g. Hilt): the app currently uses manual DI — constructor injection (`PokemonRepository(api)`, `PokemonViewModel(repository)`), `PokedexApplication`, which builds OkHttp, Retrofit and the repository once, and a `viewModelFactory` to construct the ViewModel. A framework is overkill for one screen, but would replace this manual setup and the factory as the app grows
 - Replace Gson with kotlinx.serialization: Gson ignores Kotlin nullability, so a missing field can land as `null` in a non-null property and crash later; kotlinx.serialization fails at parse time instead
+- UI test for `InfiniteLazyColumn`: a Compose UI test that scrolls near the end of the list and checks that `loadData` is called. Skipped because it needs an emulator and more setup than the unit tests
