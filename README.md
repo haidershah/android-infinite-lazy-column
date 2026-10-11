@@ -18,7 +18,7 @@ A Kotlin / Jetpack Compose app that displays Pokémon from [PokéAPI](https://po
 
 ### 2. Repository & caching
 - [x] Repository layer between network and ViewModel
-- [ ] Implement caching strategy
+- [x] Implement caching strategy
 - [ ] Document what is cached, why, and tradeoffs
 
 ### 3. State management
