@@ -34,10 +34,10 @@ class PokemonViewModelTest {
 
         runPendingCoroutines()
 
-        val state = viewModel.uiState.value
-        assertEquals(PAGE_SIZE, state.pokemons.size)
-        assertEquals(PAGE_SIZE, state.count)
-        assertEquals(LoadState.Idle, state.loadState)
+        val uiState = viewModel.uiState.value
+        assertEquals(PAGE_SIZE, uiState.pokemons.size)
+        assertEquals(PAGE_SIZE, uiState.count)
+        assertEquals(LoadState.Idle, uiState.loadState)
     }
 
     @Test
@@ -46,10 +46,10 @@ class PokemonViewModelTest {
 
         runPendingCoroutines()
 
-        val state = viewModel.uiState.value
-        assertEquals(PAGE_SIZE, state.pokemons.size)
-        assertEquals(PAGE_SIZE, state.count)
-        assertEquals(LoadState.EndReached, state.loadState)
+        val uiState = viewModel.uiState.value
+        assertEquals(PAGE_SIZE, uiState.pokemons.size)
+        assertEquals(PAGE_SIZE, uiState.count)
+        assertEquals(LoadState.EndReached, uiState.loadState)
     }
 
     @Test
@@ -58,18 +58,18 @@ class PokemonViewModelTest {
 
         runPendingCoroutines()
 
-        val state = viewModel.uiState.value
-        assertEquals(0, state.pokemons.size)
-        assertEquals(0, state.count)
-        assertEquals(LoadState.Error, state.loadState)
+        val uiState = viewModel.uiState.value
+        assertEquals(0, uiState.pokemons.size)
+        assertEquals(0, uiState.count)
+        assertEquals(LoadState.Error, uiState.loadState)
     }
 
     @Test
     fun retry_afterError_loadsPage() {
         // fails the first time, succeeds after that
-        var calls = 0
+        var numApiRequests = 0
         val viewModel = createViewModel(FakePokemonApi {
-            if (calls++ == 0) throw IOException() else pageResponse(next = "url")
+            if (numApiRequests++ == 0) throw IOException() else pageResponse(next = "url")
         })
 
         runPendingCoroutines()
@@ -78,10 +78,29 @@ class PokemonViewModelTest {
         viewModel.getPokemons()
         runPendingCoroutines()
 
-        val state = viewModel.uiState.value
-        assertEquals(PAGE_SIZE, state.pokemons.size)
-        assertEquals(PAGE_SIZE, state.count)
-        assertEquals(LoadState.Idle, state.loadState)
+        val uiState = viewModel.uiState.value
+        assertEquals(PAGE_SIZE, uiState.pokemons.size)
+        assertEquals(PAGE_SIZE, uiState.count)
+        assertEquals(LoadState.Idle, uiState.loadState)
+    }
+
+    @Test
+    fun getPokemons_whileLoading_doesNotRequestAgain() {
+        var numApiRequests = 0
+        val viewModel = createViewModel(FakePokemonApi {
+            numApiRequests++
+            pageResponse(next = "url")
+        })
+
+        assertEquals(LoadState.Loading, viewModel.uiState.value.loadState)
+
+        viewModel.getPokemons()
+        runPendingCoroutines()
+
+        val uiState = viewModel.uiState.value
+        assertEquals(LoadState.Idle, uiState.loadState)
+        assertEquals(PAGE_SIZE, uiState.pokemons.size)
+        assertEquals(1, numApiRequests)
     }
 
     @After
@@ -96,7 +115,12 @@ class PokemonViewModelTest {
 
     private fun pageResponse(next: String?): PokemonResponse {
         val pokemons = List(PAGE_SIZE) { Pokemon(name = "pokemon_$it", url = "url_$it") }
-        return PokemonResponse(count = pokemons.size, next = next, previous = null, results = pokemons)
+        return PokemonResponse(
+            count = pokemons.size,
+            next = next,
+            previous = null,
+            results = pokemons
+        )
     }
 
     companion object {
