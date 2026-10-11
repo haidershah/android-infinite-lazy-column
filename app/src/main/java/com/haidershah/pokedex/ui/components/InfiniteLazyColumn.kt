@@ -25,6 +25,7 @@ fun <T> InfiniteLazyColumn(
     header: LazyListScope.() -> Unit = {},
     items: List<T>,
     itemContent: @Composable (T) -> Unit,
+    loadingContent: @Composable () -> Unit = { DefaultLoadingContent() },
     endOfListContent: (@Composable () -> Unit)? = null,
     errorContent: (@Composable () -> Unit)? = null,
     loadState: LoadState,
@@ -65,12 +66,7 @@ fun <T> InfiniteLazyColumn(
 
             LoadState.Loading -> {
                 item {
-                    Box(
-                        modifier = Modifier.fillMaxWidth(),
-                        contentAlignment = Alignment.Center
-                    ) {
-                        CircularProgressIndicator()
-                    }
+                    loadingContent()
                 }
             }
 
@@ -90,5 +86,15 @@ fun <T> InfiniteLazyColumn(
                 }
             }
         }
+    }
+}
+
+@Composable
+private fun DefaultLoadingContent() {
+    Box(
+        modifier = Modifier.fillMaxWidth(),
+        contentAlignment = Alignment.Center
+    ) {
+        CircularProgressIndicator()
     }
 }

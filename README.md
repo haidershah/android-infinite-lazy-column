@@ -34,7 +34,7 @@ A Kotlin / Jetpack Compose app that displays Pokémon from [PokéAPI](https://po
 - [x] Generic over item type (no Pokémon knowledge)
 - [x] Triggers load-more when the user nears the end of the list (prefetch threshold, so the user never hits the end)
 - [x] Loading, success, and error states
-- [ ] Customizable item, loading, and error content
+- [x] Customizable item, loading, and error content
 
 ### 5. Pokémon list screen
 - [x] Display Pokémon names
