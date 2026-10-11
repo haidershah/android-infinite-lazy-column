@@ -5,6 +5,7 @@ import androidx.compose.animation.slideInVertically
 import androidx.compose.animation.slideOutVertically
 import androidx.compose.animation.togetherWith
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
@@ -14,6 +15,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -36,6 +38,7 @@ import com.haidershah.pokedex.R
 import com.haidershah.pokedex.data.remote.Pokemon
 import com.haidershah.pokedex.ui.components.InfiniteLazyColumn
 import com.haidershah.pokedex.ui.components.LoadState
+import java.nio.file.WatchEvent
 
 @Composable
 fun PokemonScreen(
@@ -73,6 +76,7 @@ fun PokemonContent(
         items = pokemons,
         itemKey = { pokemon -> pokemon.url },
         itemContent = { pokemon -> PokemonRow(pokemon) },
+        loadingContent = { PokemonLoadingContent() },
         endOfListContent = { EndOfListContent() },
         errorContent = { ErrorContent(loadData) },
         loadState = loadState,
@@ -187,5 +191,20 @@ fun ErrorContent(onRetry: () -> Unit) {
                 text = stringResource(R.string.retry)
             )
         }
+    }
+}
+
+@Composable
+fun PokemonLoadingContent() {
+    val loadingContentDescription = stringResource(R.string.loading)
+
+    Box(
+        modifier = Modifier.fillMaxWidth(),
+        contentAlignment = Alignment.Center
+    ) {
+        CircularProgressIndicator(modifier = Modifier.clearAndSetSemantics {
+            contentDescription = loadingContentDescription
+            liveRegion = LiveRegionMode.Polite
+        })
     }
 }
