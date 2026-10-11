@@ -118,6 +118,47 @@ The alternative is to start loading lazily when the UI first collects the state:
 
 **Cost of this choice:** loading starts as soon as the ViewModel is constructed, so unit tests must install a test Main dispatcher and inject a fake repository *before* creating the ViewModel. With more screens or ViewModels created ahead of display (e.g. pre-composed navigation destinations), the lazy approach would be worth revisiting.
 
+### HTTP response caching vs. in-memory vs. persistent storage
+
+Responses are cached at the HTTP layer with OkHttp's disk `Cache`.
+
+**What the server sends.** Before picking an approach, I looked at PokéAPI's response headers with curl:
+
+```sh
+curl -i "https://pokeapi.co/api/v2/pokemon?offset=20&limit=10"
+```
+
+The relevant headers:
+
+```
+cache-control: public, max-age=86400
+age: 57283
+etag: W/"325-6RNO9puAnP/eS+oLiU6f+AiK94o"
+```
+
+| Header | Meaning |
+|---|---|
+| `max-age=86400` | The response is fresh for 86,400 seconds (24 hours). |
+| `public` | Any cache may store it, including the app's. |
+| `age` | How long, in seconds, the response has already sat in the CDN cache (Cloudflare). OkHttp subtracts it, so here the response stays fresh for about 8 more hours, not a full 24. |
+| `etag` | A version tag for the data. After it expires, the app sends this tag to ask the server "has this changed?" If not, the server says so without resending the data, and the app keeps using its saved copy. |
+
+The server already says how long the data stays fresh and how to check whether it has changed, and that shaped the decision below.
+
+**Why response caching was chosen:**
+- The data is read-only and rarely changes (Pokémon names don't change).
+- PokéAPI already sends caching headers (`Cache-Control: public, max-age=86400` and an `ETag`), so the server decides how long a response is fresh.
+- Pages are fetched by URL, which is exactly how an HTTP cache stores them. Little code is needed and the repository and ViewModel stay unchanged.
+- It survives app restarts, since it's stored in the app's private cache directory.
+- **Knowing when data has changed is handled for us.** After the saved copy expires, the app uses the `etag` to ask the server whether the data changed. If it didn't, the app keeps using its saved copy.
+
+**Why not the alternatives:**
+- **In-memory cache:** the ViewModel already holds the loaded list in memory, so a separate in-memory cache adds little, and it's lost when the process dies.
+- **Persistent storage (Room):** we would have to decide ourselves when the stored data is out of date (timestamps, expiry, refetching, updating rows). Too much for read-only data; worth it for offline-first behavior, search, or editing.
+- **DataStore:** built for small key-value data like settings. Every write rewrites the whole file, which is a poor fit for a list that grows with each page.
+
+**Cost of this choice:** once the saved copy expires, the app needs a connection to check with the server, so expired data isn't shown offline. Showing it offline would take extra code. The caching also depends on the server's headers; if the server changed them, the caching would change too.
+
 ## Future Improvements
 
 - Dependency injection framework (e.g. Hilt): the app currently uses manual DI — constructor injection (`PokemonRepository(api)`, `PokemonViewModel(repository)`), a single `AppContainer` that builds Retrofit and the repository, and a `viewModelFactory` to construct the ViewModel. A framework is overkill for one screen, but would replace the container and factory as the app grows
