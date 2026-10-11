@@ -53,7 +53,7 @@ A Kotlin / Jetpack Compose app that displays Pokémon from [PokéAPI](https://po
 ### 7. Accessibility
 - [ ] TalkBack support (semantics, content descriptions)
 - [ ] Announce newly loaded content / loading and error states
-- [ ] Support dynamic font sizes and layouts
+- [x] Support dynamic font sizes and layouts
 - [ ] Reduced motion considerations
 
 ### 8. Unit tests
