@@ -101,7 +101,7 @@ Responses are cached at the HTTP layer with OkHttp's disk `Cache`.
 curl -i "https://pokeapi.co/api/v2/pokemon?offset=20&limit=10"
 ```
 
-The relevant headers:
+The relevant headers were:
 
 ```
 cache-control: public, max-age=86400
