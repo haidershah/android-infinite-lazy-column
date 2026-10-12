@@ -57,9 +57,9 @@ PokemonActivity
 
 ## Caching Strategy
 
-- **What is cached:** each page of Pokémon returned by the server, saved on the phone in the app's private cache folder (up to 10 MB).
-- **How:** OkHttp's built-in response cache, set up in `PokedexApplication.kt` and passed to Retrofit. The repository and ViewModel don't know about it.
-- **How long:** the server says each response stays fresh for 24 hours. Within that time, pages load from the phone with no network call, even offline. After that, the app checks with the server whether the data changed.
+- **What is cached:** Each page of Pokémon, returned by the server, is saved on the phone, in the app's private cache folder (up to 10 MB).
+- **How:** OkHttp's built-in response cache is used. It's set up in `PokedexApplication.kt` and passed to Retrofit. The repository and ViewModel don't know about it.
+- **How long:** The server says each response stays fresh for 24 hours. Within that time, pages load from the phone with no network call, even offline. After that, the app checks with the server whether the data changed.
 
 For why this approach was chosen over the alternatives, see [Tradeoffs](#http-response-caching-vs-in-memory-vs-persistent-storage).
 
@@ -67,7 +67,7 @@ For why this approach was chosen over the alternatives, see [Tradeoffs](#http-re
 
 - **Decorative row icon:** the bolt icon on each Pokémon row uses `contentDescription = null`. It's identical on every row and carries no information — the Pokémon name is the row's meaning. With a description, TalkBack would announce it on every row ("bolt, Bulbasaur", "bolt, Ivysaur", …), adding noise without value; with `null`, TalkBack skips it and reads just the name.
 - **Loaded count:** the header uses `clearAndSetSemantics` with one description, "Loaded Pokémon, 30", so TalkBack reads it as a single item. While the number animates, the old and new numbers are both on screen for a moment, and this keeps TalkBack from reading both. It's also a live region, so TalkBack says the new count when a page arrives, even if the user is focused on a row.
-- **Loading:** the spinner has the description "Loading" and is a live region, so TalkBack says it when it appears.
+- **Loading:** the spinner has the description "Loading" and is a live region, so TalkBack says it when it appears, even when the user is focused on something else. 
 - **Errors:** the error message and Retry button are a live region, so TalkBack says "Couldn't load data, Retry, button" when a page fails to load.
 - **Reduced motion:** Compose follows Android's "Remove animations" setting, so with it on, the count and new rows change without animating. No extra code was needed.
 - **Font size:** the screen uses theme text styles in `sp`, so text grows with the user's font size setting. A `fontScale = 2f` preview checks the layout with large text.
