@@ -39,7 +39,8 @@ PokemonActivity
 ## Key Design Decisions
 
 - **`InfiniteLazyColumn` instead of `InfiniteScrollView`:** the prompt names the component `InfiniteScrollView`. It's named `InfiniteLazyColumn` here because it wraps a `LazyColumn` and follows Compose naming (`LazyColumn`, `LazyRow`), whereas "ScrollView" is a View-system term.
-- **The component is generic:** `InfiniteLazyColumn<T>` takes the items, the current `LoadState` and a `loadData` function. The screen passes in how to draw each item, the error UI and the end-of-list message, so the component has no Pokémon code or text of its own. Loading falls back to a spinner if the caller doesn't provide one.
+- **The component is generic:** `InfiniteLazyColumn<T>` takes the items, the current `LoadState` and a `loadData` function. The screen passes in how to draw each item, the loading spinner, the error UI and the end-of-list message, so the component has no Pokémon code or text of its own. Loading falls back to a plain spinner if the caller doesn't provide one.
+- **Slots instead of text parameters:** the component takes whole composables (slots) for loading, error and end-of-list content, not strings, the same way Material components do. The screen passes its own spinner with a translatable "Loading" description, so the component doesn't need the app's strings.
 - **Load before the user reaches the end:** the next page is requested when the user is within 3 items of the end (`loadMoreThreshold`), so scrolling doesn't stall.
 - **One `LoadState` for the list:** `Idle`, `Loading`, `Error` or `EndReached`. The component uses it to decide what to show at the bottom, and the ViewModel uses it to ignore a new request while one is already loading.
 - **Follow the server's `next` URL:** each response says where the next page is, so the app uses that instead of calculating offsets itself. When `next` is `null`, the list is finished.
