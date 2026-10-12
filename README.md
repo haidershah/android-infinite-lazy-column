@@ -124,7 +124,7 @@ The server already says how long the data stays fresh and how to check whether i
 - **Knowing when data has changed is handled for us.** After the saved copy expires, the app uses the `etag` to ask the server whether the data changed. If it didn't, the app keeps using its saved copy.
 
 **Why not the alternatives:**
-- **In-memory cache:** the ViewModel already holds the loaded list in memory, so a separate in-memory cache adds little, and it's lost when the process dies.
+- **In-memory cache:** the ViewModel already holds the loaded list in memory, so a separate in-memory cache adds little, and it's lost when the process dies. This works because the app has one screen. With several screens sharing the list, an in-memory cache in the repository would let them share it without reloading.
 - **Persistent storage (Room):** we would have to decide ourselves when the stored data is out of date (timestamps, expiry, refetching, updating rows). Too much for read-only data; worth it for offline-first behavior, search, or editing.
 - **DataStore:** built for small key-value data like settings. Every write rewrites the whole file, which is a poor fit for a list that grows with each page.
 
