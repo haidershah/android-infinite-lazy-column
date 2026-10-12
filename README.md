@@ -19,7 +19,7 @@ To run the unit tests:
 
 ## Architecture Overview
 
-The app follows the MVVM pattern: the UI shows state and sends events, the ViewModel owns the state, and the repository fetches data.
+The app uses MVVM + Repository: the UI shows state and sends events, the ViewModel owns the state, and the repository fetches data.
 
 ```
 PokemonActivity
@@ -35,6 +35,15 @@ PokemonActivity
 - **`ui/pokemon`:** `PokemonScreen`, `PokemonViewModel` and `PokemonUiState`.
 - **`data`:** `PokemonApi`, the response models and `PokemonRepository`.
 - **`PokedexApplication`:** builds OkHttp, Retrofit and the repository once, and the ViewModel gets the repository through its constructor.
+
+**Why MVVM + Repository:** it's the structure Google recommends for Android apps, so it's familiar to other Android developers. It's also the right size for one screen. Clean Architecture would add a use-case layer, but here each use case would only pass the call straight to the repository.
+
+**Testing:** each layer can be tested on its own. The repository and ViewModel tests use a fake API, so they run on the JVM without a network or emulator. `PokemonContent` takes plain data with no ViewModel, so its previews can draw every state.
+
+**Future growth:**
+- A new screen gets its own ViewModel and can reuse the repository.
+- Changing where data comes from, for example adding a database, only changes the repository, not the ViewModel or UI.
+- If business logic grows, a use-case layer can be added between the ViewModel and the repository later.
 
 ## Key Design Decisions
 
