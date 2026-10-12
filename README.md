@@ -105,7 +105,6 @@ The relevant headers were:
 
 ```
 cache-control: public, max-age=86400
-age: 57283
 etag: W/"325-6RNO9puAnP/eS+oLiU6f+AiK94o"
 ```
 
@@ -113,7 +112,6 @@ etag: W/"325-6RNO9puAnP/eS+oLiU6f+AiK94o"
 |---|---|
 | `max-age=86400` | The response is fresh for 86,400 seconds (24 hours). |
 | `public` | Any cache may store it, including the app's. |
-| `age` | How long, in seconds, the response has already sat in the CDN cache (Cloudflare). OkHttp subtracts it, so here the response stays fresh for about 8 more hours, not a full 24. |
 | `etag` | A version tag for the data. After it expires, the app sends this tag to ask the server "has this changed?" If not, the server says so without resending the data, and the app keeps using its saved copy. |
 
 The server already says how long the data stays fresh and how to check whether it has changed, and that shaped the decision below.
